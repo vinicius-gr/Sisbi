@@ -1,0 +1,49 @@
+unit uUsuarioControl;
+
+interface
+
+uses
+  uUsuarioModel, System.SysUtils, FireDAC.Comp.Client;
+
+type
+  TUsuarioControl = class
+  private
+    FUsuarioModel: TUsuarioModel;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    function Salvar: Boolean;
+    function Obter: TFDQuery;
+
+    property ClienteModel: TUsuarioModel read FUsuarioModel write FUsuarioModel;
+  end;
+
+implementation
+
+{ TClienteControl }
+
+constructor TClienteControl.Create;
+begin
+  FUsuarioModel := TUsuarioModel.Create;
+end;
+
+destructor TClienteControl.Destroy;
+begin
+  FUsuarioModel.Free;
+  inherited;
+end;
+
+function TClienteControl.Obter: TFDQuery;
+begin
+  Result := FUsuarioModel.Obter;
+end;
+
+function TClienteControl.Salvar: Boolean;
+begin
+  Result := FUsuarioModel.Salvar;
+end;
+
+end.
+

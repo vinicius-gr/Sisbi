@@ -1,0 +1,84 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 399
+  ClientWidth = 554
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ActionMainMenuBar1: TActionMainMenuBar
+    Left = 0
+    Top = 0
+    Width = 554
+    Height = 29
+    Caption = 'ActionMainMenuBar1'
+    Color = clMenuBar
+    ColorMap.DisabledFontColor = 7171437
+    ColorMap.HighlightColor = clWhite
+    ColorMap.BtnSelectedFont = clBlack
+    ColorMap.UnusedColor = clWhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Spacing = 0
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 375
+    Width = 554
+    Height = 24
+    Panels = <>
+  end
+  object GridPanel1: TGridPanel
+    Left = 0
+    Top = 29
+    Width = 554
+    Height = 346
+    Align = alClient
+    Caption = 'GridPanel1'
+    ColumnCollection = <
+      item
+        Value = 100.000000000000000000
+      end>
+    ControlCollection = <>
+    RowCollection = <
+      item
+        Value = 10.201159900578400000
+      end
+      item
+        Value = 89.798840099421600000
+      end>
+    TabOrder = 2
+    ExplicitLeft = 8
+    ExplicitTop = 35
+  end
+  object TabControl1: TTabControl
+    Left = 0
+    Top = 29
+    Width = 554
+    Height = 346
+    Align = alClient
+    TabOrder = 3
+    Tabs.Strings = (
+      'Usu'#225'rios'
+      'Livros'
+      'Se'#231#245'es'
+      'Funcionarios'
+      'Reservas'
+      'Multas')
+    TabIndex = 0
+  end
+  object ActionManager1: TActionManager
+    Left = 520
+    StyleName = 'Platform Default'
+  end
+end
