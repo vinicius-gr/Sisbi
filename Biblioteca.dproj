@@ -103,11 +103,11 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="View\uFrmLogin.pas">
-            <Form>Form1</Form>
+            <Form>FormLogin</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="View\uFrmMainUsuario.pas">
-            <Form>Form2</Form>
+            <Form>FormMainUsuario</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Dao\uConexao.pas"/>
@@ -116,6 +116,11 @@
         <DCCReference Include="Dao\uUsuarioDao.pas"/>
         <DCCReference Include="Control\uSistemaControl.pas"/>
         <DCCReference Include="Control\uUsuarioControl.pas"/>
+        <DCCReference Include="Model\uPermissao.pas"/>
+        <DCCReference Include="View\uFrmMainAdm.pas">
+            <Form>FormMainAdm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

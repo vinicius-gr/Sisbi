@@ -26,10 +26,6 @@ implementation
 
 { TConexao }
 
-
-
-{ TConexao }
-
 procedure TConexao.ConfigurarConexao;
 begin
   FConn.DriverName := 'MSSQL';

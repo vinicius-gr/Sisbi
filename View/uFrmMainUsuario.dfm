@@ -1,4 +1,4 @@
-﻿object Form2: TForm2
+﻿object FormMainUsuario: TFormMainUsuario
   Left = 0
   Top = 0
   Caption = '   SISBI'
@@ -19,6 +19,7 @@
     Top = 0
     Width = 658
     Height = 25
+    UseSystemFont = False
     ActionManager = ActionManager1
     Caption = 'ActionMainMenuBar1'
     Color = clMenuBar
@@ -27,13 +28,11 @@
     ColorMap.BtnSelectedFont = clBlack
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
+    Font.Color = clBlack
     Font.Height = -12
     Font.Name = 'Segoe UI'
     Font.Style = []
     Spacing = 0
-    ExplicitWidth = 550
-    ExplicitHeight = 29
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -41,7 +40,6 @@
     Width = 658
     Height = 24
     Panels = <>
-    ExplicitTop = 409
   end
   object PageControl1: TPageControl
     Left = 167
@@ -52,12 +50,8 @@
     Align = alRight
     Style = tsFlatButtons
     TabOrder = 2
-    ExplicitTop = 41
     object TabSheet1: TTabSheet
       Caption = 'Perfil'
-      ExplicitLeft = 0
-      ExplicitTop = 25
-      ExplicitWidth = 650
       object GroupBox3: TGroupBox
         Left = 3
         Top = 0
@@ -201,6 +195,19 @@
         Height = 166
         Caption = 'Reservas'
         TabOrder = 1
+        object DBGrid2: TDBGrid
+          Left = 2
+          Top = 15
+          Width = 228
+          Height = 149
+          Align = alClient
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+        end
       end
       object GroupBox5: TGroupBox
         Left = 241
@@ -209,14 +216,24 @@
         Height = 166
         Caption = 'Empr'#233'stimos'
         TabOrder = 2
+        object DBGrid3: TDBGrid
+          Left = 2
+          Top = 15
+          Width = 228
+          Height = 149
+          Align = alClient
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+        end
       end
     end
     object Consulta: TTabSheet
       Caption = 'Consulta'
       ImageIndex = 1
-      ExplicitLeft = 8
-      ExplicitTop = 25
-      ExplicitWidth = 650
       object PageControl2: TPageControl
         Left = 9
         Top = 7
@@ -227,13 +244,82 @@
         TabOrder = 0
         object TabSheet2: TTabSheet
           Caption = 'Busca Simples'
-          ExplicitLeft = 0
-          ExplicitTop = 31
+          object Label9: TLabel
+            Left = 3
+            Top = 3
+            Width = 27
+            Height = 13
+            Caption = 'Nome'
+          end
+          object EditNomeBusca: TEdit
+            Left = 3
+            Top = 22
+            Width = 190
+            Height = 21
+            TabOrder = 0
+          end
+          object Button4: TButton
+            Left = 3
+            Top = 67
+            Width = 75
+            Height = 25
+            Caption = 'Buscar'
+            TabOrder = 1
+          end
         end
         object TabSheet3: TTabSheet
           Caption = 'Busca Avan'#231'ada'
           ImageIndex = 1
-          ExplicitWidth = 474
+          object Label10: TLabel
+            Left = 3
+            Top = 3
+            Width = 27
+            Height = 13
+            Caption = 'Autor'
+          end
+          object Label11: TLabel
+            Left = 219
+            Top = 3
+            Width = 19
+            Height = 13
+            Caption = 'Ano'
+          end
+          object Label12: TLabel
+            Left = 291
+            Top = 3
+            Width = 34
+            Height = 13
+            Caption = 'Editora'
+          end
+          object Edit1: TEdit
+            Left = 3
+            Top = 22
+            Width = 190
+            Height = 21
+            TabOrder = 0
+          end
+          object Edit2: TEdit
+            Left = 219
+            Top = 22
+            Width = 46
+            Height = 21
+            TabOrder = 1
+          end
+          object Edit3: TEdit
+            Left = 291
+            Top = 22
+            Width = 126
+            Height = 21
+            TabOrder = 2
+          end
+          object Button5: TButton
+            Left = 3
+            Top = 67
+            Width = 75
+            Height = 25
+            Caption = 'Buscar'
+            TabOrder = 3
+          end
         end
       end
       object DBGrid1: TDBGrid
@@ -268,9 +354,6 @@
     object Informações: TTabSheet
       Caption = 'Informa'#231#245'es'
       ImageIndex = 2
-      ExplicitLeft = 8
-      ExplicitTop = 25
-      ExplicitWidth = 650
     end
   end
   object TGroupBox
@@ -280,7 +363,6 @@
     Height = 382
     Align = alLeft
     TabOrder = 3
-    ExplicitTop = 31
   end
   object ActionManager1: TActionManager
     ActionBars = <

@@ -3,7 +3,7 @@ unit uUsuarioModel;
 interface
 
 uses
-  uEnumerado, FireDAC.Comp.Client;
+  uEnumerado, FireDAC.Comp.Client, uPermissao;
 
 type
   TUsuarioModel = class
@@ -25,9 +25,11 @@ type
     procedure SetSobrenome(const Value: string);
     procedure SetPermissao(const Value: string);
 
+
   public
     function Obter: TFDQuery;
     function VerificaSenha(SenhaInserida: string): Boolean;
+    function VerificaPermissao(): TPermissao;
     function Salvar: Boolean;
 
     property Cpf: string read FCpf write SetCpf;
@@ -47,9 +49,9 @@ uses uUsuarioDao;
 
 function TUsuarioModel.Obter: TFDQuery;
 var
-  VClienteDao: TClienteDao;
+  VClienteDao: TUsuarioDao;
 begin
-  VClienteDao := TClienteDao.Create;
+  VClienteDao := TUsuarioDao.Create;
   try
     Result := VClienteDao.Obter;
   finally
@@ -59,16 +61,19 @@ end;
 
 function TUsuarioModel.Salvar: Boolean;
 var
-  VClienteDao: TClienteDao;
+  VClienteDao: TUsuarioDao;
 begin
   Result := False;
 
-  VClienteDao := TClienteDao.Create;
+  VClienteDao := TUsuarioDao.Create;
   try
     case FAcao of
-      uEnumerado.tacIncluir: Result := VClienteDao.Incluir(Self);
-      uEnumerado.tacAlterar: Result := VClienteDao.Alterar(Self);
-      uEnumerado.tacExcluir: Result := VClienteDao.Excluir(Self);
+      uEnumerado.tacIncluir:
+        Result := VClienteDao.Incluir(Self);
+      uEnumerado.tacAlterar:
+        Result := VClienteDao.Alterar(Self);
+      uEnumerado.tacExcluir:
+        Result := VClienteDao.Excluir(Self);
     end;
   finally
     VClienteDao.Free;
@@ -108,17 +113,46 @@ end;
 function TUsuarioModel.VerificaSenha(SenhaInserida: string): Boolean;
 var
   VQry: TFDQuery;
-  VClienteDao: TClienteDao;
+  VUsuarioDao: TUsuarioDao;
+
 begin
-  VClienteDao := TClienteDao.Create;
+  VUsuarioDao := TUsuarioDao.Create;
 
   try
-    VQry := VClienteDao.ObterSenhaPermissao(Self);
+    VQry := VUsuarioDao.ObterSenhaPermissao(Self);
 
-    if VQry.FieldByName(Senha).AsString = SenhaInserida then
+    if VQry.FieldByName('Senha').AsString = SenhaInserida then
+    begin
       Result := True;
+    end
+    else
+    begin
+      Result := False;
+    end;
   finally
-    VClienteDao.Free;
+    VUsuarioDao.Free;
+    VQry.Free;
+  end;
+end;
+
+function TUsuarioModel.VerificaPermissao(): TPermissao;
+var
+  VQry: TFDQuery;
+  VUsuarioDao: TUsuarioDao;
+
+begin
+  VUsuarioDao := TUsuarioDao.Create;
+
+  try
+    VQry := VUsuarioDao.ObterSenhaPermissao(Self);
+
+    if VQry.FieldByName('Permissao').AsString = 'adm' then
+      Result := uPermissao.pAdmin;
+    if VQry.FieldByName('Permissao').AsString = 'usr' then
+      Result := uPermissao.pNormal;
+
+  finally
+    VUsuarioDao.Free;
     VQry.Free;
   end;
 end;

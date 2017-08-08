@@ -6,7 +6,7 @@ uses
   FireDAC.Comp.Client, uConexao, uUsuarioModel, System.SysUtils;
 
 type
-  TClienteDao = class
+  TUsuarioDao = class
 
   private
     FConexao: TConexao;
@@ -20,21 +20,22 @@ type
     function Excluir(UsuarioModel: TUsuarioModel): Boolean;
 
     function Obter: TFDQuery;
+    function Buscar(UsuarioModel: TUsuarioModel): TFDQuery;
     function ObterSenhaPermissao(UsuarioModel: TUsuarioModel): TFDQuery;
   end;
 
 implementation
 
-{ TClienteDao }
+{ TUsuarioDao }
 
 uses uSistemaControl;
 
-constructor TClienteDao.Create;
+constructor TUsuarioDao.Create;
 begin
   FConexao := TSistemaControl.GetInstance().Conexao;
 end;
 
-function TClienteDao.Alterar(UsuarioModel: TUsuarioModel): Boolean;
+function TUsuarioDao.Alterar(UsuarioModel: TUsuarioModel): Boolean;
 var
   VQry: TFDQuery;
 begin
@@ -49,7 +50,7 @@ end;
 
 
 
-function TClienteDao.Excluir(UsuarioModel: TUsuarioModel): Boolean;
+function TUsuarioDao.Excluir(UsuarioModel: TUsuarioModel): Boolean;
 var
   VQry: TFDQuery;
 begin
@@ -63,13 +64,13 @@ begin
   end;
 end;
 
-function TClienteDao.Incluir(UsuarioModel: TUsuarioModel): Boolean;
+function TUsuarioDao.Incluir(UsuarioModel: TUsuarioModel): Boolean;
 var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
   try
-    VQry.ExecSQL('INSERT INTO Usuario (FNome, LNome, Senha, Permissao) VALUES (:fnome, :snome, :senha, :permissao)', [UsuarioModel.Nome, UsuarioModel.SNome, UsuarioModel.Senha, UsuarioModel.Permissao]);
+    VQry.ExecSQL('INSERT INTO Usuario (Cpf, FNome, LNome, Senha, Permissao) VALUES (:cpf, :fnome, :snome, :senha, :permissao)', [UsuarioModel.Cpf, UsuarioModel.Nome, UsuarioModel.SNome, UsuarioModel.Senha, UsuarioModel.Permissao]);
 
     Result := True;
   finally
@@ -77,7 +78,7 @@ begin
   end;
 end;
 
-function TClienteDao.Obter: TFDQuery;
+function TUsuarioDao.Obter: TFDQuery;
 var
   VQry: TFDQuery;
 begin
@@ -88,7 +89,18 @@ begin
   Result := VQry;
 end;
 
-function TClienteDao.ObterSenhaPermissao(UsuarioModel: TUsuarioModel): TFDQuery;
+function TUsuarioDao.Buscar(UsuarioModel: TUsuarioModel): TFDQuery;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+
+  VQry.Open(' SELECT Cpf, FNome, LNome, Senha, Permissao FROM Usuario WHERE Cpf = :cpf ', [UsuarioModel.Cpf]);
+
+  Result := VQry;
+end;
+
+function TUsuarioDao.ObterSenhaPermissao(UsuarioModel: TUsuarioModel): TFDQuery;
 var
   VQry: TFDQuery;
 begin
