@@ -157,7 +157,7 @@ begin
         ShowMessage('Usuário e/ou senha incorreto(s)');
     end
     else
-      ShowMessage('Favor preencher todos os campos');
+      ShowMessage('Preencha todos os campos');
   finally
     VControleUsuario.Free;
   end;

@@ -121,6 +121,9 @@
             <Form>FormMainAdm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Control\uLivroControl.pas"/>
+        <DCCReference Include="Dao\uLivroDao.pas"/>
+        <DCCReference Include="Model\uLivroModel.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -142,6 +145,7 @@
                     <Source Name="MainSource">Biblioteca.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\DataExplorerDBXPluginEnt250.bpl">DBExpress Enterprise Data Explorer Integration</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k250.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp250.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>

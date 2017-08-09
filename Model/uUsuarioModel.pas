@@ -26,11 +26,15 @@ type
     procedure SetPermissao(const Value: string);
 
 
+
+
   public
     function Obter: TFDQuery;
+    function Buscar: TFDQuery;
     function VerificaSenha(SenhaInserida: string): Boolean;
     function VerificaPermissao(): TPermissao;
     function Salvar: Boolean;
+    function ObterNome: String;
 
     property Cpf: string read FCpf write SetCpf;
     property Senha: string read FSenha write SetSenha;
@@ -49,13 +53,13 @@ uses uUsuarioDao;
 
 function TUsuarioModel.Obter: TFDQuery;
 var
-  VClienteDao: TUsuarioDao;
+  Dao: TUsuarioDao;
 begin
-  VClienteDao := TUsuarioDao.Create;
+  Dao := TUsuarioDao.Create;
   try
-    Result := VClienteDao.Obter;
+    Result := Dao.Obter;
   finally
-    VClienteDao.Free;
+    Dao.Free;
   end;
 end;
 
@@ -97,7 +101,7 @@ end;
 
 procedure TUsuarioModel.SetPermissao(const Value: string);
 begin
-  FNome := Value;
+  FPermissao := Value;
 end;
 
 procedure TUsuarioModel.SetSenha(const Value: string);
@@ -110,6 +114,22 @@ begin
   FSNome := Value;
 end;
 
+function TUsuarioModel.ObterNome(): String;
+var
+  VQry: TFDQuery;
+  VUsuarioDao: TUsuarioDao;
+begin
+  VUsuarioDao := TUsuarioDao.Create;
+
+  try
+    VQry := VUsuarioDao.ObterDados(Self);
+    Result := (VQry.FieldByName('FNome').AsString + ' ' + VQry.FieldByName('LNome').AsString);
+  finally
+    VUsuarioDao.Free;
+  end;
+
+end;
+
 function TUsuarioModel.VerificaSenha(SenhaInserida: string): Boolean;
 var
   VQry: TFDQuery;
@@ -119,7 +139,7 @@ begin
   VUsuarioDao := TUsuarioDao.Create;
 
   try
-    VQry := VUsuarioDao.ObterSenhaPermissao(Self);
+    VQry := VUsuarioDao.ObterDados(Self);
 
     if VQry.FieldByName('Senha').AsString = SenhaInserida then
     begin
@@ -131,7 +151,18 @@ begin
     end;
   finally
     VUsuarioDao.Free;
-    VQry.Free;
+  end;
+end;
+
+function TUsuarioModel.Buscar(): TFDQuery;
+var
+  Dao: TUsuarioDao;
+begin
+  Dao := TUsuarioDao.Create;
+  try
+    Result := Dao.Buscar(Self);
+  finally
+    Dao.Free;
   end;
 end;
 
@@ -144,7 +175,7 @@ begin
   VUsuarioDao := TUsuarioDao.Create;
 
   try
-    VQry := VUsuarioDao.ObterSenhaPermissao(Self);
+    VQry := VUsuarioDao.ObterDados(Self);
 
     if VQry.FieldByName('Permissao').AsString = 'adm' then
       Result := uPermissao.pAdmin;
@@ -153,7 +184,6 @@ begin
 
   finally
     VUsuarioDao.Free;
-    VQry.Free;
   end;
 end;
 

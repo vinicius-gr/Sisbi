@@ -16,6 +16,7 @@ type
 
     function Salvar: Boolean;
     function Obter: TFDQuery;
+    function Buscar: TFDQuery;
 
     property UsuarioModel: TUsuarioModel read FUsuarioModel write FUsuarioModel;
   end;
@@ -38,6 +39,11 @@ end;
 function TUsuarioControl.Obter: TFDQuery;
 begin
   Result := FUsuarioModel.Obter;
+end;
+
+function TUsuarioControl.Buscar: TFDQuery;
+begin
+  Result := FUsuarioModel.Buscar;
 end;
 
 function TUsuarioControl.Salvar: Boolean;

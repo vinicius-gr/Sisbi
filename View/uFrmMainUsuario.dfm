@@ -56,7 +56,7 @@
         Left = 3
         Top = 0
         Width = 477
-        Height = 177
+        Height = 137
         Caption = 'Informa'#231#245'es Pessoais'
         TabOrder = 0
         object Label1: TLabel
@@ -67,43 +67,22 @@
           Caption = 'Nome'
         end
         object Label2: TLabel
-          Left = 176
+          Left = 224
           Top = 24
           Width = 54
           Height = 13
           Caption = 'Sobrenome'
         end
-        object Label3: TLabel
-          Left = 384
-          Top = 24
-          Width = 55
-          Height = 13
-          Caption = 'Nascimento'
-        end
-        object Label4: TLabel
-          Left = 16
-          Top = 72
-          Width = 36
-          Height = 13
-          Caption = 'Telfone'
-        end
-        object Label5: TLabel
-          Left = 192
-          Top = 72
-          Width = 28
-          Height = 13
-          Caption = 'E-mail'
-        end
         object Label6: TLabel
           Left = 16
-          Top = 118
+          Top = 78
           Width = 19
           Height = 13
           Caption = 'CPF'
         end
         object Label7: TLabel
-          Left = 176
-          Top = 118
+          Left = 192
+          Top = 78
           Width = 30
           Height = 13
           Caption = 'Senha'
@@ -114,92 +93,48 @@
           Width = 3
           Height = 13
         end
-        object Label8: TLabel
-          Left = 368
-          Top = 74
-          Width = 24
-          Height = 13
-          Caption = 'Sexo'
-        end
         object EditNome: TEdit
           Left = 16
           Top = 43
-          Width = 121
+          Width = 169
           Height = 21
           TabOrder = 0
         end
         object EditSobrenome: TEdit
-          Left = 176
+          Left = 224
           Top = 43
-          Width = 177
+          Width = 225
           Height = 21
           TabOrder = 1
         end
-        object EditNasc: TEdit
-          Left = 384
-          Top = 43
-          Width = 65
+        object EditSenha: TEdit
+          Left = 192
+          Top = 97
+          Width = 169
           Height = 21
           TabOrder = 2
         end
-        object EditTelefone: TEdit
-          Left = 16
-          Top = 91
-          Width = 137
-          Height = 21
-          TabOrder = 3
-        end
-        object EditEmail: TEdit
-          Left = 192
-          Top = 91
-          Width = 137
-          Height = 21
-          TabOrder = 4
-        end
-        object EditSenha: TEdit
-          Left = 176
-          Top = 137
-          Width = 137
-          Height = 21
-          TabOrder = 5
-        end
         object Button3: TButton
-          Left = 384
-          Top = 136
+          Left = 391
+          Top = 97
           Width = 75
           Height = 25
           Caption = 'Alterar'
-          TabOrder = 6
-        end
-        object RadioButton1: TRadioButton
-          Left = 368
-          Top = 93
-          Width = 33
-          Height = 17
-          Caption = 'M'
-          TabOrder = 7
-        end
-        object RadioButton2: TRadioButton
-          Left = 416
-          Top = 93
-          Width = 33
-          Height = 17
-          Caption = 'F'
-          TabOrder = 8
+          TabOrder = 3
         end
       end
       object GroupBox4: TGroupBox
         Left = 3
-        Top = 183
+        Top = 143
         Width = 232
-        Height = 166
+        Height = 206
         Caption = 'Reservas'
         TabOrder = 1
         object DBGrid2: TDBGrid
           Left = 2
           Top = 15
           Width = 228
-          Height = 149
+          Height = 189
           Align = alClient
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
@@ -211,16 +146,16 @@
       end
       object GroupBox5: TGroupBox
         Left = 241
-        Top = 182
+        Top = 143
         Width = 232
-        Height = 166
+        Height = 205
         Caption = 'Empr'#233'stimos'
         TabOrder = 2
         object DBGrid3: TDBGrid
           Left = 2
           Top = 15
           Width = 228
-          Height = 149
+          Height = 188
           Align = alClient
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
@@ -239,7 +174,7 @@
         Top = 7
         Width = 471
         Height = 126
-        ActivePage = TabSheet2
+        ActivePage = TabSheet3
         Style = tsFlatButtons
         TabOrder = 0
         object TabSheet2: TTabSheet

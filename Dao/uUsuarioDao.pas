@@ -21,12 +21,12 @@ type
 
     function Obter: TFDQuery;
     function Buscar(UsuarioModel: TUsuarioModel): TFDQuery;
-    function ObterSenhaPermissao(UsuarioModel: TUsuarioModel): TFDQuery;
+    function ObterDados(UsuarioModel: TUsuarioModel): TFDQuery;
   end;
 
 implementation
 
-{ TUsuarioDao }
+{ TLivroDao }
 
 uses uSistemaControl;
 
@@ -41,7 +41,7 @@ var
 begin
   VQry := FConexao.CriarQuery();
   try
-    VQry.ExecSQL('UPDATE Usuario SET FNome = :fnome, LNome = :snome, Senha = :senha, Permissao = :permissao WHERE (Cpf = :cpf)', [UsuarioModel.Nome , UsuarioModel.SNome, UsuarioModel.Senha, UsuarioModel.Permissao, UsuarioModel.Cpf]);
+    VQry.ExecSQL('UPDATE Usuario SET FNome = :fnome, LNome = :snome, Senha = :senha, Permissao = :permissao WHERE (Cpf = :cpf)', [UsuarioModel.Nome, UsuarioModel.SNome, UsuarioModel.Senha, UsuarioModel.Permissao, UsuarioModel.Cpf]);
     Result := True;
   finally
     VQry.Free;
@@ -70,7 +70,7 @@ var
 begin
   VQry := FConexao.CriarQuery();
   try
-    VQry.ExecSQL('INSERT INTO Usuario (Cpf, FNome, LNome, Senha, Permissao) VALUES (:cpf, :fnome, :snome, :senha, :permissao)', [UsuarioModel.Cpf, UsuarioModel.Nome, UsuarioModel.SNome, UsuarioModel.Senha, UsuarioModel.Permissao]);
+    VQry.ExecSQL('INSERT INTO Usuario VALUES (:permissao, :senha, :cpf, :nome, :snome)', [UsuarioModel.Permissao, UsuarioModel.Senha, UsuarioModel.Cpf, UsuarioModel.Nome, UsuarioModel.SNome]);
 
     Result := True;
   finally
@@ -95,18 +95,18 @@ var
 begin
   VQry := FConexao.CriarQuery();
 
-  VQry.Open(' SELECT Cpf, FNome, LNome, Senha, Permissao FROM Usuario WHERE Cpf = :cpf ', [UsuarioModel.Cpf]);
+  VQry.Open(' SELECT * FROM Usuario WHERE (Cpf = :cpf) OR (FNome = :nome) OR (LNome = :snome) ', [UsuarioModel.Cpf, UsuarioModel.Nome, UsuarioModel.SNome]);
 
   Result := VQry;
 end;
 
-function TUsuarioDao.ObterSenhaPermissao(UsuarioModel: TUsuarioModel): TFDQuery;
+function TUsuarioDao.ObterDados(UsuarioModel: TUsuarioModel): TFDQuery;
 var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
 
-  VQry.Open(' SELECT Senha, Permissao FROM Usuario WHERE Cpf = :cpf ', [UsuarioModel.Cpf]);
+  VQry.Open(' SELECT * FROM Usuario WHERE Cpf = :cpf ', [UsuarioModel.Cpf]);
 
   Result := VQry;
 end;

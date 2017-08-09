@@ -11,7 +11,10 @@ uses
   uSistemaControl in 'Control\uSistemaControl.pas',
   uUsuarioControl in 'Control\uUsuarioControl.pas',
   uPermissao in 'Model\uPermissao.pas',
-  uFrmMainAdm in 'View\uFrmMainAdm.pas' {FormMainAdm};
+  uFrmMainAdm in 'View\uFrmMainAdm.pas' {FormMainAdm},
+  uLivroControl in 'Control\uLivroControl.pas',
+  uLivroDao in 'Dao\uLivroDao.pas',
+  uLivroModel in 'Model\uLivroModel.pas';
 
 {$R *.res}
 
@@ -19,7 +22,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormLogin, FormLogin);
-  Application.CreateForm(TFormMainUsuario, FormMainUsuario);
-  Application.CreateForm(TFormMainAdm, FormMainAdm);
   Application.Run;
 end.

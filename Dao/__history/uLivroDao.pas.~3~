@@ -1,0 +1,111 @@
+unit uLivroDao;
+
+interface
+
+uses
+  FireDAC.Comp.Client, uConexao, uLivroModel, System.SysUtils;
+
+type
+  TLivroDao = class
+
+  private
+    FConexao: TConexao;
+
+  public
+    constructor Create;
+
+    function Incluir(LivroModel: TLivroModel): Boolean;
+    function Alterar(LivroModel: TLivroModel): Boolean;
+    function Excluir(LivroModel: TLivroModel): Boolean;
+
+    function Obter: TFDQuery;
+    function Buscar(LivroModel: TLivroModel): TFDQuery;
+    function ObterDados(LivroModel: TLivroModel): TFDQuery;
+  end;
+
+implementation
+
+{ TLivroDao }
+
+uses uSistemaControl;
+
+constructor TLivroDao.Create;
+begin
+  FConexao := TSistemaControl.GetInstance().Conexao;
+end;
+
+function TLivroDao.Alterar(LivroModel: TLivroModel): Boolean;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  try
+    VQry.ExecSQL('UPDATE Livro SET Titulo = :titulo, Autor = :autor, Ano = :ano, Localizacao = :localizacao WHERE (Codigo = :codigo)', [LivroModel.Titulo, LivroModel.SNome, LivroModel.Senha, LivroModel.Permissao, LivroModel.Cpf]);
+    Result := True;
+  finally
+    VQry.Free;
+  end;
+end;
+
+function TLivroDao.Excluir(LivroModel: TLivroModel): Boolean;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  try
+    VQry.ExecSQL('DELETE FROM Usuario WHERE (Cpf = :cpf)', [LivroModel.Cpf]);
+
+    Result := True;
+  finally
+    VQry.Free;
+  end;
+end;
+
+function TLivroDao.Incluir(LivroModel: TLivroModel): Boolean;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  try
+    VQry.ExecSQL('INSERT INTO Usuario VALUES (:permissao, :senha, :cpf, :nome, :snome)', [LivroModel.Permissao, LivroModel.Senha, LivroModel.Cpf, LivroModel.Nome, LivroModel.SNome]);
+
+    Result := True;
+  finally
+    VQry.Free;
+  end;
+end;
+
+function TLivroDao.Obter: TFDQuery;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+
+  VQry.Open(' SELECT Cpf, FNome, LNome, Senha, Permissao FROM Usuario order by 1 ');
+
+  Result := VQry;
+end;
+
+function TLivroDao.Buscar(LivroModel: TLivroModel): TFDQuery;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+
+  VQry.Open(' SELECT Cpf, FNome, LNome, Senha, Permissao FROM Usuario WHERE (Cpf = :cpf) OR (FNome = :nome) OR (LNome = :snome) ', [LivroModel.Cpf, LivroModel.Nome, LivroModel.SNome]);
+
+  Result := VQry;
+end;
+
+function TLivroDao.ObterDados(LivroModel: TLivroModel): TFDQuery;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+
+  VQry.Open(' SELECT * FROM Usuario WHERE Cpf = :cpf ', [LivroModel.Cpf]);
+
+  Result := VQry;
+end;
+
+end.
