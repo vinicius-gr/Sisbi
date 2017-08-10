@@ -14,12 +14,13 @@ type
     FTitulo: string;
     FAutor: string;
     FAno: Integer;
-    FLocalizacao: string;
+    FLocalizacao: integer;
+
     procedure SetAcao(const Value: TAcao);
     procedure SetAno(const Value: Integer);
     procedure SetAutor(const Value: string);
     procedure SetCodigo(const Value: string);
-    procedure SetLocalizacao(const Value: string);
+    procedure SetLocalizacao(const Value: integer);
     procedure SetTitulo(const Value: string);
 
   public
@@ -32,7 +33,7 @@ type
     property Titulo: string read FTitulo write SetTitulo;
     property Autor: string read FAutor write SetAutor;
     property Ano: Integer read FAno write SetAno;
-    property Localizacao: string read FLocalizacao write SetLocalizacao;
+    property Localizacao: integer read FLocalizacao write SetLocalizacao;
 
     property Acao: TAcao read FAcao write SetAcao;
   end;
@@ -97,7 +98,7 @@ begin
   FCodigo := Value;
 end;
 
-procedure TLivroModel.SetLocalizacao(const Value: string);
+procedure TLivroModel.SetLocalizacao(const Value: Integer);
 begin
   FLocalizacao := Value;
 end;
@@ -116,7 +117,7 @@ begin
 
   try
     VQry := Dao.ObterDados(Self);
-    Result := (VQry.FieldByName('FNome').AsString + ' ' + VQry.FieldByName('LNome').AsString);
+    Result := VQry.FieldByName('Titulo').AsString;
   finally
     Dao.Free;
   end;

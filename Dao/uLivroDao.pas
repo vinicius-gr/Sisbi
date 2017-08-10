@@ -92,7 +92,7 @@ var
 begin
   VQry := FConexao.CriarQuery();
 
-  VQry.Open(' SELECT Codigo, Titulo, Autor, Ano, Localizacao FROM Livro WHERE (Codigo = :codigo) OR (Titulo = :titulo) OR (Autor = :autor) ', [LivroModel.Codigo, LivroModel.Titulo, LivroModel.Autor]);
+  VQry.Open(' SELECT * FROM Livro WHERE (Codigo = :codigo) OR (Titulo = :titulo) OR (Autor = :autor) ', [LivroModel.Codigo, LivroModel.Titulo, LivroModel.Autor]);
 
   Result := VQry;
 end;
@@ -103,7 +103,7 @@ var
 begin
   VQry := FConexao.CriarQuery();
 
-  VQry.Open(' SELECT * FROM Usuario WHERE Codigo = :codigo ', [LivroModel.Codigo]);
+  VQry.Open(' SELECT * FROM Livro WHERE Codigo = :codigo ', [LivroModel.Codigo]);
 
   Result := VQry;
 end;

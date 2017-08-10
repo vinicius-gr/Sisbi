@@ -114,6 +114,8 @@ implementation
 
 {$R *.dfm}
 
+uses uModulos;
+
 procedure TFormLogin.ButtonLogarClick(Sender: TObject);
 var
   VControleUsuario: TUsuarioControl;
@@ -129,6 +131,7 @@ begin
       if VControleUsuario.UsuarioModel.VerificaSenha(EditSenha.Text) then
       begin
 
+        Modulos.CPFLogado := EditUsuario.Text;
 
         if VControleUsuario.UsuarioModel.VerificaPermissao() = pNormal then
         begin

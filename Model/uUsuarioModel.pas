@@ -28,6 +28,7 @@ type
 
 
 
+
   public
     function Obter: TFDQuery;
     function Buscar: TFDQuery;
@@ -35,6 +36,7 @@ type
     function VerificaPermissao(): TPermissao;
     function Salvar: Boolean;
     function ObterNome: String;
+    function ObterDados: TFDQuery;
 
     property Cpf: string read FCpf write SetCpf;
     property Senha: string read FSenha write SetSenha;
@@ -184,6 +186,18 @@ begin
 
   finally
     VUsuarioDao.Free;
+  end;
+end;
+
+function TUsuarioModel.ObterDados(): TFDQuery;
+var
+  Dao: TUsuarioDao;
+begin
+  Dao := TUsuarioDao.Create;
+  try
+    Result := Dao.ObterDados(Self);
+  finally
+    Dao.Free;
   end;
 end;
 

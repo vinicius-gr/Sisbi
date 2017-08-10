@@ -1,9 +1,10 @@
 ﻿object FormMainUsuario: TFormMainUsuario
   Left = 0
   Top = 0
+  BorderStyle = bsDialog
   Caption = '   SISBI'
-  ClientHeight = 431
-  ClientWidth = 658
+  ClientHeight = 441
+  ClientWidth = 668
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,12 +13,14 @@
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object ActionMainMenuBar1: TActionMainMenuBar
     Left = 0
     Top = 0
-    Width = 658
+    Width = 668
     Height = 25
     UseSystemFont = False
     ActionManager = ActionManager1
@@ -33,25 +36,31 @@
     Font.Name = 'Segoe UI'
     Font.Style = []
     Spacing = 0
+    ExplicitWidth = 658
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 407
-    Width = 658
+    Top = 417
+    Width = 668
     Height = 24
     Panels = <>
+    ExplicitTop = 407
+    ExplicitWidth = 658
   end
   object PageControl1: TPageControl
-    Left = 167
+    Left = 177
     Top = 25
     Width = 491
-    Height = 382
-    ActivePage = TabSheet1
+    Height = 392
+    ActivePage = Consulta
     Align = alRight
     Style = tsFlatButtons
     TabOrder = 2
+    ExplicitLeft = 167
+    ExplicitHeight = 382
     object TabSheet1: TTabSheet
       Caption = 'Perfil'
+      ExplicitHeight = 351
       object GroupBox3: TGroupBox
         Left = 3
         Top = 0
@@ -62,36 +71,60 @@
         object Label1: TLabel
           Left = 16
           Top = 24
-          Width = 27
+          Width = 32
           Height = 13
           Caption = 'Nome'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
         end
         object Label2: TLabel
           Left = 224
           Top = 24
-          Width = 54
+          Width = 65
           Height = 13
           Caption = 'Sobrenome'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
         end
         object Label6: TLabel
           Left = 16
           Top = 78
-          Width = 19
+          Width = 20
           Height = 13
           Caption = 'CPF'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
         end
         object Label7: TLabel
-          Left = 192
+          Left = 224
           Top = 78
-          Width = 30
+          Width = 35
           Height = 13
           Caption = 'Senha'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
         end
         object LabelCpf: TLabel
           Left = 16
-          Top = 137
-          Width = 3
-          Height = 13
+          Top = 97
+          Width = 145
+          Height = 17
         end
         object EditNome: TEdit
           Left = 16
@@ -108,19 +141,20 @@
           TabOrder = 1
         end
         object EditSenha: TEdit
-          Left = 192
+          Left = 224
           Top = 97
-          Width = 169
+          Width = 121
           Height = 21
           TabOrder = 2
         end
-        object Button3: TButton
-          Left = 391
+        object ButtonAlterarUsuario: TButton
+          Left = 375
           Top = 97
           Width = 75
           Height = 25
           Caption = 'Alterar'
           TabOrder = 3
+          OnClick = ButtonAlterarUsuarioClick
         end
       end
       object GroupBox4: TGroupBox
@@ -169,6 +203,8 @@
     object Consulta: TTabSheet
       Caption = 'Consulta'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitWidth = 487
       object PageControl2: TPageControl
         Left = 9
         Top = 7
@@ -182,11 +218,11 @@
           object Label9: TLabel
             Left = 3
             Top = 3
-            Width = 27
+            Width = 33
             Height = 13
-            Caption = 'Nome'
+            Caption = 'C'#243'digo'
           end
-          object EditNomeBusca: TEdit
+          object EditCodigoBusca: TEdit
             Left = 3
             Top = 22
             Width = 190
@@ -194,8 +230,8 @@
             TabOrder = 0
           end
           object Button4: TButton
-            Left = 3
-            Top = 67
+            Left = 219
+            Top = 19
             Width = 75
             Height = 25
             Caption = 'Buscar'
@@ -222,30 +258,30 @@
           object Label12: TLabel
             Left = 291
             Top = 3
-            Width = 34
+            Width = 54
             Height = 13
-            Caption = 'Editora'
+            Caption = 'Localiza'#231#227'o'
           end
-          object Edit1: TEdit
+          object Label15: TLabel
+            Left = 152
+            Top = 49
+            Width = 27
+            Height = 13
+            Caption = 'Nome'
+          end
+          object EditAutorBusca: TEdit
             Left = 3
             Top = 22
             Width = 190
             Height = 21
             TabOrder = 0
           end
-          object Edit2: TEdit
+          object EditAnoBusca: TEdit
             Left = 219
             Top = 22
             Width = 46
             Height = 21
             TabOrder = 1
-          end
-          object Edit3: TEdit
-            Left = 291
-            Top = 22
-            Width = 126
-            Height = 21
-            TabOrder = 2
           end
           object Button5: TButton
             Left = 3
@@ -253,7 +289,21 @@
             Width = 75
             Height = 25
             Caption = 'Buscar'
+            TabOrder = 2
+          end
+          object EditNomeBusca: TEdit
+            Left = 152
+            Top = 68
+            Width = 297
+            Height = 21
             TabOrder = 3
+          end
+          object ComboBoxLocalizacoesBusca: TComboBox
+            Left = 288
+            Top = 22
+            Width = 161
+            Height = 21
+            TabOrder = 4
           end
         end
       end
@@ -289,15 +339,198 @@
     object Informações: TTabSheet
       Caption = 'Informa'#231#245'es'
       ImageIndex = 2
+      ExplicitHeight = 351
     end
   end
   object TGroupBox
     Left = 0
     Top = 25
-    Width = 161
-    Height = 382
+    Width = 178
+    Height = 392
     Align = alLeft
     TabOrder = 3
+    object Label3: TLabel
+      Left = 16
+      Top = 10
+      Width = 32
+      Height = 14
+      Caption = 'Nome'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelNomeUsuario: TLabel
+      Left = 16
+      Top = 29
+      Width = 20
+      Height = 14
+      Caption = '-----'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 16
+      Top = 48
+      Width = 65
+      Height = 14
+      Caption = 'Sobrenome'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelSobrenomeUsuario: TLabel
+      Left = 16
+      Top = 67
+      Width = 20
+      Height = 14
+      Caption = '-----'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 16
+      Top = 86
+      Width = 21
+      Height = 14
+      Caption = 'CPF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelCpfUsuario: TLabel
+      Left = 16
+      Top = 105
+      Width = 20
+      Height = 14
+      Caption = '-----'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 16
+      Top = 183
+      Width = 75
+      Height = 14
+      Caption = 'Empr'#233'tismos'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelEmprestimosUsuario: TLabel
+      Left = 16
+      Top = 202
+      Width = 20
+      Height = 14
+      Caption = '-----'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
+    object Label13: TLabel
+      Left = 16
+      Top = 229
+      Width = 66
+      Height = 14
+      Caption = 'Solicita'#231#245'es'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelSolicitacoesUsuario: TLabel
+      Left = 16
+      Top = 252
+      Width = 20
+      Height = 14
+      Caption = '-----'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
+    object Label14: TLabel
+      Left = 16
+      Top = 280
+      Width = 52
+      Height = 14
+      Caption = 'Reservas'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelReservasUsuario: TLabel
+      Left = 16
+      Top = 299
+      Width = 20
+      Height = 14
+      Caption = '-----'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
+    object Label17: TLabel
+      Left = 16
+      Top = 328
+      Width = 37
+      Height = 14
+      Caption = 'Multas'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LabelMultasUsuario: TLabel
+      Left = 16
+      Top = 347
+      Width = 20
+      Height = 14
+      Caption = '-----'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
   end
   object ActionManager1: TActionManager
     ActionBars = <

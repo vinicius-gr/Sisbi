@@ -124,6 +124,14 @@
         <DCCReference Include="Control\uLivroControl.pas"/>
         <DCCReference Include="Dao\uLivroDao.pas"/>
         <DCCReference Include="Model\uLivroModel.pas"/>
+        <DCCReference Include="View\uModulos.pas">
+            <Form>Modulos</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Control\uUnidadeControl.pas"/>
+        <DCCReference Include="Dao\uUnidadeDao.pas"/>
+        <DCCReference Include="Model\uUnidadeModel.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

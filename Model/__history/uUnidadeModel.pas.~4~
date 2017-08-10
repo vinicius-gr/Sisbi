@@ -1,0 +1,100 @@
+unit uUnidadeModel;
+
+interface
+
+uses
+  uEnumerado, FireDAC.Comp.Client;
+
+type
+  TUnidadeModel = class
+
+  private
+    FAcao: TAcao;
+
+    FCodigo: integer;
+    FNome: string;
+    FCep: string;
+    FCidade: string;
+
+    procedure SetCep(const Value: string);
+    procedure SetCidade(const Value: string);
+    procedure SetCodigo(const Value: integer);
+    procedure SetNome(const Value: string);
+    procedure SetAcao(const Value: TAcao);
+
+  public
+    function Obter: TFDQuery;
+    function Salvar: Boolean;
+
+    property Acao: TAcao read FAcao write SetAcao;
+    property Codigo: integer read FCodigo write SetCodigo;
+    property Nome: string read FNome write SetNome;
+    property Cep: string read FCep write SetCep;
+    property Cidade: string read FCidade write SetCidade;
+  end;
+
+implementation
+
+{ TUnidadeModel }
+
+uses uUnidadeDao;
+
+function TUnidadeModel.Obter: TFDQuery;
+var
+  Dao: TUnidadeDao;
+begin
+  Dao := TUnidadeDao.Create;
+
+  try
+    Result := Dao.Obter;
+  finally
+    Dao.Free;
+  end;
+end;
+
+function TUnidadeModel.Salvar: Boolean;
+var
+  Dao: TUnidadeDao;
+begin
+  Result := False;
+  Dao := TUnidadeDao.Create;
+
+  try
+    case FAcao of
+      tacIncluir:
+        Result := Dao.Incluir(Self);
+
+      tacExcluir:
+        Result := Dao.Excluir(Self);
+    end;
+  finally
+    Dao.Free;
+  end;
+end;
+
+procedure TUnidadeModel.SetAcao(const Value: TAcao);
+begin
+  FAcao := Value;
+end;
+
+procedure TUnidadeModel.SetCep(const Value: string);
+begin
+  FCep := Value;
+end;
+
+procedure TUnidadeModel.SetCidade(const Value: string);
+begin
+  FCidade := Value;
+end;
+
+procedure TUnidadeModel.SetCodigo(const Value: integer);
+begin
+  FCodigo := Value;
+end;
+
+procedure TUnidadeModel.SetNome(const Value: string);
+begin
+  FNome := Value;
+end;
+
+end.
