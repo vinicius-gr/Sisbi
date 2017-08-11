@@ -1,0 +1,18 @@
+unit uReservaModel;
+
+interface
+
+uses FireDac.Comp.Client, uReservaControl;
+
+type
+  TReservaModel = class
+
+  private
+    FIdLivro: string;
+    FIdUsuario: string;
+    FInicio: Date;
+  end;
+
+implementation
+
+end.

@@ -473,6 +473,10 @@ begin
   Usuario := TUsuarioControl.Create;
   Livro := TLivroControl.Create;
   Unidade := TUnidadeControl.Create;
+
+  Usuario.UsuarioModel.Cpf := Modulos.CPFLogado;
+
+  StatusBar1.Panels[0].Text := ' '+Usuario.UsuarioModel.ObterNome;
 end;
 
 procedure TFormMainAdm.FormDestroy(Sender: TObject);
@@ -483,8 +487,6 @@ begin
 end;
 
 procedure TFormMainAdm.FormShow(Sender: TObject);
-var
-  VQry: TFDQuery;
 begin
   Self.CarregarUsuarios();
   Self.CarregarLivros();
@@ -522,8 +524,8 @@ end;
 
 procedure TFormMainAdm.Timer1Timer(Sender: TObject);
 begin
-  Statusbar1.Panels [0].Text := ' '+datetostr(date);
-  Statusbar1.Panels [1].Text := ' '+timetostr(now);
+  Statusbar1.Panels[1].Text := ' '+datetostr(date);
+  Statusbar1.Panels[2].Text := ' '+timetostr(now);
 end;
 
 end.

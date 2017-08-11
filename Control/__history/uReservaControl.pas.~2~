@@ -1,0 +1,54 @@
+unit uReservaControl;
+
+interface
+
+uses
+  uReservaModel, System.SysUtils, FireDAC.Comp.Client;
+
+type
+  TReservaControl = class
+  private
+    FReservaModel: TReservaModel;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    function Salvar: Boolean;
+    function Obter: TFDQuery;
+    function ObterSelecionadas: TFDQuery;
+
+    property ReservaModel: TReservaModel read FReservaModel write FReservaModel;
+  end;
+
+implementation
+
+{ TReservaControl }
+
+constructor TReservaControl.Create;
+begin
+  FReservaModel := TReservaModel.Create;
+end;
+
+destructor TReservaControl.Destroy;
+begin
+  FReservaModel.Free;
+  inherited;
+end;
+
+function TReservaControl.Obter: TFDQuery;
+begin
+  Result := FReservaModel.Obter;
+end;
+
+function TReservaControl.ObterSelecionadas(Cpf: string): TFDQuery;
+begin
+  Result := FReservaModel.ObterSelecionadas(Cpf);
+end;
+
+function TReservaControl.Salvar: Boolean;
+begin
+  Result := FReservaModel.Salvar;
+end;
+
+end.

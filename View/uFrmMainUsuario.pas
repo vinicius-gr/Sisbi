@@ -8,7 +8,7 @@ uses
   Vcl.PlatformDefaultStyleActnCtrls, System.Actions, Vcl.ActnList, Vcl.ActnMan,
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.ExtCtrls, Vcl.StdCtrls,
   Data.DB, Vcl.Grids, Vcl.DBGrids, uModulos, uUsuarioControl,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, uReservaControl;
 
 type
   TFormMainUsuario = class(TForm)
@@ -38,7 +38,7 @@ type
     GroupBox5: TGroupBox;
     Button1: TButton;
     Button2: TButton;
-    DBGrid2: TDBGrid;
+    DBGridReservas: TDBGrid;
     DBGrid3: TDBGrid;
     Label9: TLabel;
     EditCodigoBusca: TEdit;
@@ -72,11 +72,13 @@ type
 
   private
     Usuario: TUsuarioControl;
+    Reserva: TReservaControl;
     VQry: TFDQuery;
 
     procedure CarregarUsuario;
     procedure CarregarEdits;
     procedure CarregarLabels;
+    procedure CarregarReservas;
 
   public
 
@@ -90,7 +92,7 @@ implementation
 
 {$R *.dfm}
 
-uses uEnumerado;
+uses uEnumerado, uModulosUsuario;
 
 
 procedure TFormMainUsuario.ButtonAlterarUsuarioClick(Sender: TObject);
@@ -120,6 +122,11 @@ begin
   EditSenha.Text := VQry.FieldByName('Senha').AsString;
 end;
 
+procedure TFormMainUsuario.CarregarReservas;
+begin
+
+end;
+
 procedure TFormMainUsuario.CarregarLabels;
 begin
   VQry := Usuario.UsuarioModel.ObterDados;
@@ -141,6 +148,9 @@ begin
 
   Self.CarregarEdits();
   Self.CarregarLabels();
+  Self.CarregarReservas();
+
+  StatusBar1.Panels[0].Text := ' '+Usuario.UsuarioModel.ObterNome;
 end;
 
 procedure TFormMainUsuario.FormDestroy(Sender: TObject);

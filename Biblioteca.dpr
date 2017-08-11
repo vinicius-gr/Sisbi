@@ -18,7 +18,11 @@ uses
   uModulos in 'View\uModulos.pas' {Modulos: TDataModule},
   uUnidadeControl in 'Control\uUnidadeControl.pas',
   uUnidadeDao in 'Dao\uUnidadeDao.pas',
-  uUnidadeModel in 'Model\uUnidadeModel.pas';
+  uUnidadeModel in 'Model\uUnidadeModel.pas',
+  uReservaModel in 'Model\uReservaModel.pas',
+  uReservaControl in 'Control\uReservaControl.pas',
+  uReservaDao in 'Dao\uReservaDao.pas',
+  uModulosUsuario in 'View\uModulosUsuario.pas' {DataModule1: TDataModule};
 
 {$R *.res}
 
@@ -27,5 +31,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormLogin, FormLogin);
   Application.CreateForm(TModulos, Modulos);
+  Application.CreateForm(TDataModule1, DataModule1);
   Application.Run;
 end.

@@ -23,7 +23,7 @@ type
 
 implementation
 
-{ TClienteControl }
+{ TReservaControl }
 
 constructor TLivroControl.Create;
 begin

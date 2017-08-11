@@ -88,7 +88,7 @@ uses
   Vcl.PlatformDefaultStyleActnCtrls, System.Actions, Vcl.ActnList, Vcl.ActnMan,
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, uFrmMainUsuario, uUsuarioControl,
   uEnumerado, FireDAC.Comp.Client, uConexao, uSistemaControl, uPermissao,
-  uFrmMainAdm;
+  uFrmMainAdm, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
 
 type
   TFormLogin = class(TForm)
@@ -99,6 +99,8 @@ type
     ActionManager1: TActionManager;
     RecuperarSenha: TAction;
     Sobre: TAction;
+    Image1: TImage;
+    Image2: TImage;
     procedure ButtonLogarClick(Sender: TObject);
 
   private

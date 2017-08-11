@@ -121,7 +121,6 @@ begin
   finally
     Dao.Free;
   end;
-
 end;
 
 function TLivroModel.Buscar(): TFDQuery;

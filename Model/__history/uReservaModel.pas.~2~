@@ -1,0 +1,9 @@
+unit uReservaModel;
+
+interface
+
+uses FireDac.Comp.Client, uReservaControl;
+
+implementation
+
+end.
