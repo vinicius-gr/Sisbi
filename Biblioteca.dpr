@@ -22,7 +22,13 @@ uses
   uReservaModel in 'Model\uReservaModel.pas',
   uReservaControl in 'Control\uReservaControl.pas',
   uReservaDao in 'Dao\uReservaDao.pas',
-  uModulosUsuario in 'View\uModulosUsuario.pas' {DataModule1: TDataModule};
+  uModulosUsuario in 'View\uModulosUsuario.pas' {DataModule1: TDataModule},
+  uSolicitacaoControl in 'Control\uSolicitacaoControl.pas',
+  uSolicitacaoDao in 'Dao\uSolicitacaoDao.pas',
+  uSolicitacaoModel in 'Model\uSolicitacaoModel.pas',
+  uEmprestimoControl in 'Control\uEmprestimoControl.pas',
+  uEmprestimoDao in 'Dao\uEmprestimoDao.pas',
+  uEmprestimoModel in 'Model\uEmprestimoModel.pas';
 
 {$R *.res}
 
@@ -31,6 +37,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormLogin, FormLogin);
   Application.CreateForm(TModulos, Modulos);
-  Application.CreateForm(TDataModule1, DataModule1);
+  Application.CreateForm(TDataModule1, ModulosUsuario);
   Application.Run;
 end.

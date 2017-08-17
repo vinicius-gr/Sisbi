@@ -1,5 +1,6 @@
-object Modulos: TModulos
+﻿object Modulos: TModulos
   OldCreateOrder = False
+  OnCreate = DataModuleCreate
   Height = 335
   Width = 441
   object ActionManager1: TActionManager
@@ -37,7 +38,6 @@ object Modulos: TModulos
               end>
             Caption = '&Sair'
           end>
-        ActionBar = FormMainAdm.ActionMainMenuBar1
       end>
     Left = 32
     Top = 16
@@ -86,40 +86,6 @@ object Modulos: TModulos
     Left = 216
     Top = 16
   end
-  object FDMemTableLivros: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 352
-    Top = 72
-    object FDMemTableLivrosCodigo: TStringField
-      DisplayLabel = 'C'#243'digo'
-      FieldName = 'Codigo'
-    end
-    object FDMemTableLivrosTitulo: TStringField
-      DisplayLabel = 'T'#237'tulo'
-      FieldName = 'Titulo'
-    end
-    object FDMemTableLivrosAutor: TStringField
-      FieldName = 'Autor'
-    end
-    object FDMemTableLivrosAno: TIntegerField
-      FieldName = 'Ano'
-    end
-    object FDMemTableLivrosLocalizacao: TIntegerField
-      DisplayLabel = 'Localiza'#231#227'o'
-      FieldName = 'Localizacao'
-    end
-  end
-  object DataSourceLivros: TDataSource
-    DataSet = FDMemTableLivros
-    Left = 216
-    Top = 72
-  end
   object FDMemTableUnidades: TFDMemTable
     DetailFields = 'Cep;Cidade;Codigo;Nome'
     FetchOptions.AssignedValues = [evMode]
@@ -150,5 +116,47 @@ object Modulos: TModulos
     DataSet = FDMemTableUnidades
     Left = 216
     Top = 136
+  end
+  object FDMemTableLivros: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 352
+    Top = 80
+    object FDMemTableLivrosCódigo: TStringField
+      FieldName = 'Codigo'
+    end
+    object StringField1: TStringField
+      Alignment = taCenter
+      FieldName = 'Titulo'
+    end
+    object StringField2: TStringField
+      Alignment = taCenter
+      FieldName = 'Autor'
+    end
+    object IntegerField1: TIntegerField
+      Alignment = taCenter
+      FieldName = 'Ano'
+    end
+    object FDMemTableLivrosNome: TStringField
+      Alignment = taCenter
+      DisplayLabel = 'Biblioteca'
+      FieldName = 'Nome'
+    end
+    object FDMemTableLivrosCidade: TStringField
+      FieldName = 'Cidade'
+    end
+    object FDMemTableLivrosDisponivel: TBooleanField
+      FieldName = 'Disponivel'
+    end
+  end
+  object DataSourceLivros: TDataSource
+    DataSet = FDMemTableLivros
+    Left = 224
+    Top = 80
   end
 end

@@ -26,7 +26,7 @@ implementation
 
 { TReservaDao }
 
-uses uSistemaControl, uUnidadeModel, uUsuarioModel;
+uses uSistemaControl, uUnidadeModel, uUsuarioModel, Vcl.Dialogs;
 
 constructor TReservaDao.Create;
 begin
@@ -64,8 +64,9 @@ var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
+
   try
-    VQry.ExecSQL('INSERT INTO Reserva VALUES (:inicio, :fim, :idUsuario, :IdLivro)', [ReservaModel.Inicio, ReservaModel.Fim, ReservaModel.IdUsuario, ReservaModel.IdLivro]);
+    VQry.ExecSQL(' INSERT INTO Reserva VALUES (:inicio, :fim, :idUsuario, :idLivro, :hora) ', [ReservaModel.Inicio, ReservaModel.Fim, ReservaModel.IdUsuario, ReservaModel.IdLivro, ReservaModel.Hora]);
     Result := True;
   finally
     VQry.Free;
@@ -86,7 +87,7 @@ var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
-  VQry.Open(' SELECT r.Id_Livro AS Codigo, l.Titulo FROM Reserva AS r, Livro AS l WHERE (r.Id_Usuario = :idUsuario AND r.Id_Livro = l.Codigo) ', [IdUsuario]);
+  VQry.Open(' SELECT r.Id_Livro AS Codigo, l.Titulo FROM Reserva r, Livro l WHERE (r.Id_Usuario = :idUsuario AND r.Id_Livro = l.Codigo) ', [IdUsuario]);
   Result := VQry;
 end;
 

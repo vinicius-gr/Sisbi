@@ -3,7 +3,8 @@ unit uLivroDao;
 interface
 
 uses
-  FireDAC.Comp.Client, uConexao, uLivroModel, System.SysUtils;
+  FireDAC.Comp.Client, uConexao, uLivroModel, System.SysUtils, Vcl.Dialogs,
+  FireDAC.Phys.MSSQL;
 
 type
   TLivroDao = class
@@ -21,6 +22,7 @@ type
     function Obter: TFDQuery;
     function Buscar(LivroModel: TLivroModel): TFDQuery;
     function ObterDados(LivroModel: TLivroModel): TFDQuery;
+    function BuscaAvancado(LivroModel: TLivroModel): TFDQuery;
   end;
 
 implementation
@@ -53,8 +55,7 @@ var
 begin
   VQry := FConexao.CriarQuery();
   try
-    VQry.ExecSQL('DELETE FROM Livro WHERE (Codigo = :codigo)', [LivroModel.Codigo]);
-
+    VQry.ExecSQL(' DELETE FROM Livro WHERE (Codigo = :codigo) ', [LivroModel.Codigo]);
     Result := True;
   finally
     VQry.Free;
@@ -67,9 +68,13 @@ var
 begin
   VQry := FConexao.CriarQuery();
   try
-    VQry.ExecSQL('INSERT INTO Livro VALUES (:codigo, :titulo, :autor, :ano, :localizacao)', [LivroModel.Codigo, LivroModel.Titulo, LivroModel.Autor, LivroModel.Ano, LivroModel.Localizacao]);
-
-    Result := True;
+    try
+      VQry.ExecSQL('INSERT INTO Livro VALUES (:codigo, :titulo, :autor, :ano, :localizacao, 1 )', [LivroModel.Codigo, LivroModel.Titulo, LivroModel.Autor, LivroModel.Ano, LivroModel.Localizacao]);
+      Result := True;
+    except
+      on E : EMSSQLNativeException do
+        MessageDlg('Já existe um livro cadastrado com esta chave.', mtWarning, [mbOK], 0);
+    end;
   finally
     VQry.Free;
   end;
@@ -80,9 +85,7 @@ var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
-
-  VQry.Open(' SELECT * FROM Livro order by 1 ');
-
+  VQry.Open(' SELECT l.Codigo AS Codigo, l.Titulo AS Titulo, l.Autor AS Autor, l.Ano AS Ano, u.Nome AS Nome, u.Cidade AS Cidade, l.Localizacao AS Localizacao, l.Disponivel AS Disponivel FROM Livro l, Unidade u WHERE (l.Localizacao = u.Codigo) ');
   Result := VQry;
 end;
 
@@ -91,8 +94,18 @@ var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
-
   VQry.Open(' SELECT * FROM Livro WHERE (Codigo = :codigo) OR (Titulo = :titulo) OR (Autor = :autor) ', [LivroModel.Codigo, LivroModel.Titulo, LivroModel.Autor]);
+  Result := VQry;
+end;
+
+function TLivroDao.BuscaAvancado(LivroModel: TLivroModel): TFDQuery;
+var
+  VQry: TFDQuery;
+  Qry: string;
+begin
+  VQry := FConexao.CriarQuery();
+  Qry := ' SELECT l.Codigo AS Codigo, l.Titulo AS Titulo, l.Autor AS Autor,' + 'l.Ano AS Ano, u.Nome AS Nome, u.Cidade AS Cidade, l.Localizacao AS Localizacao, l.Disponivel AS Disponivel FROM Livro l, Unidade u WHERE (l.Titulo = :titulo) OR (l.Autor = :autor) OR (l.Localizacao = :localizacao) AND (l.Localizacao = u.Codigo) ';
+  VQry.Open(Qry, [LivroModel.Titulo, LivroModel.Autor, LivroModel.Localizacao]);
 
   Result := VQry;
 end;
@@ -102,9 +115,7 @@ var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
-
-  VQry.Open(' SELECT * FROM Livro WHERE Codigo = :codigo ', [LivroModel.Codigo]);
-
+  VQry.Open(' SELECT l.Codigo AS Codigo, l.Titulo AS Titulo, l.Autor AS Autor, l.Ano AS Ano, u.Nome AS Nome, u.Cidade AS Cidade, l.Localizacao AS Localizacao, l.Disponivel AS Disponivel FROM Livro l, Unidade u WHERE (l.Localizacao = u.Codigo) AND (l.Codigo = :codigo) ', [LivroModel.Codigo]);
   Result := VQry;
 end;
 

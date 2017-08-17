@@ -1,0 +1,97 @@
+unit uEmprestimoDao;
+
+interface
+
+uses
+  FireDAC.Comp.Client, uConexao, uEmprestimoModel, System.SysUtils;
+
+type
+  TEmprestimoDao = class
+
+  private
+    FConexao: TConexao;
+    VQry: TFDQuery;
+
+  public
+
+    constructor Create;
+
+    function Incluir(EmprestimoModel: TEmprestimoModel): Boolean;
+    function Excluir(EmprestimoModel: TEmprestimoModel): Boolean;
+    function Renovar(EmprestimoModel: TEmprestimoModel): Boolean;
+
+    function Obter: TFDQuery;
+    function ObterSelecionadas(IdUsuario: string): TFDQuery;
+  end;
+
+implementation
+
+{ TEmprestimoDao }
+
+uses uSistemaControl, uUnidadeModel, uUsuarioModel, Vcl.Dialogs,
+  FireDAC.Phys.MSSQL;
+
+constructor TEmprestimoDao.Create;
+begin
+  FConexao := TSistemaControl.GetInstance().Conexao;
+end;
+
+function TEmprestimoDao.Excluir(EmprestimoModel: TEmprestimoModel): Boolean;
+begin
+  VQry := FConexao.CriarQuery();
+  try
+    VQry.ExecSQL(' DELETE FROM Emprestimo WHERE (Codigo = :codigo) ', [EmprestimoModel.Codigo]);
+    Result := True;
+  finally
+    VQry.Free;
+  end;
+end;
+
+function TEmprestimoDao.Renovar(EmprestimoModel: TEmprestimoModel): Boolean;
+begin
+  VQry := FConexao.CriarQuery();
+  try
+    try
+      VQry.ExecSQL(' UPDATE Emprestimo SET Vencimento = :vencimento, Renovacoes = :renovacoes WHERE (Codigo = :codigo) ', [EmprestimoModel.Vencimento, EmprestimoModel.Renovacoes, EmprestimoModel.Codigo]);
+      Result := True;
+    except
+      on E : EMSSQLNativeException do
+        MessageDlg('Ocorreu erro ao renovar o empréstimo.', mtWarning, [mbOK], 0);
+    end;
+  finally
+     VQry.Free;
+  end;
+
+end;
+
+function TEmprestimoDao.Incluir(EmprestimoModel: TEmprestimoModel): Boolean;
+begin
+  VQry := FConexao.CriarQuery();
+  try
+    try
+    VQry.ExecSQL(' INSERT INTO Emprestimo VALUES (:codigo, :inicio, :vencimento, :renovacoes, :idUsuario, :idLivro ) ', [EmprestimoModel.Codigo, EmprestimoModel.Inicio, EmprestimoModel.Vencimento, EmprestimoModel.Renovacoes, EmprestimoModel.IdUsuario, EmprestimoModel.IdLivro]);
+    Result := True;
+    except
+      on E : EMSSQLNativeException do
+        MessageDlg('Ocorreu um erro ao realizar o empréstimo.', mtWarning, [mbOK], 0);
+    end;
+  finally
+    VQry.Free;
+  end;
+end;
+
+function TEmprestimoDao.Obter: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  VQry.Open(' SELECT * FROM Emprestimo order by 1 ');
+  Result := VQry;
+end;
+
+function TEmprestimoDao.ObterSelecionadas(IdUsuario: string): TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  VQry.Open(' SELECT * FROM Emprestimo WHERE (Id_Usuario = :idUsuario) ', [IdUsuario]);
+  Result := VQry;
+end;
+
+end.

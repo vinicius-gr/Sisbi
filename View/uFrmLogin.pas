@@ -132,7 +132,6 @@ begin
     begin
       if VControleUsuario.UsuarioModel.VerificaSenha(EditSenha.Text) then
       begin
-
         Modulos.CPFLogado := EditUsuario.Text;
 
         if VControleUsuario.UsuarioModel.VerificaPermissao() = pNormal then

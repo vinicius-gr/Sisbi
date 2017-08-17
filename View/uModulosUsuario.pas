@@ -13,6 +13,15 @@ type
     DataSourceReservas: TDataSource;
     FDMemTableReservasCodigo: TStringField;
     FDMemTableReservasTitulo: TStringField;
+    FDMemTableEmprestimos: TFDMemTable;
+    DataSourceEmprestimos: TDataSource;
+    FDMemTableEmprestimosCodigo: TIntegerField;
+    FDMemTableEmprestimosRenovacoes: TIntegerField;
+    FDMemTableEmprestimosId_Livro: TStringField;
+    FDMemTableEmprestimosTitulo: TStringField;
+    FDMemTableEmprestimosInicio: TDateField;
+    FDMemTableEmprestimosVencimento: TDateField;
+
   private
     { Private declarations }
   public
@@ -20,7 +29,7 @@ type
   end;
 
 var
-  DataModule1: TDataModule1;
+  ModulosUsuario: TDataModule1;
 
 implementation
 

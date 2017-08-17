@@ -8,7 +8,8 @@ uses
   Vcl.PlatformDefaultStyleActnCtrls, System.Actions, Vcl.ActnList, Vcl.ActnMan,
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.ExtCtrls, Vcl.StdCtrls,
   Data.DB, Vcl.Grids, Vcl.DBGrids, uModulos, uUsuarioControl,
-  FireDAC.Comp.Client, uReservaControl;
+  FireDAC.Comp.Client, uReservaControl, uLivroControl, System.DateUtils,
+  uSolicitacaoControl, uEmprestimoControl;
 
 type
   TFormMainUsuario = class(TForm)
@@ -16,12 +17,12 @@ type
     ActionManager1: TActionManager;
     StatusBar1: TStatusBar;
     Action1: TAction;
-    PageControl1: TPageControl;
+    Empréstimos: TPageControl;
     TabSheet1: TTabSheet;
     Consulta: TTabSheet;
     Informações: TTabSheet;
     PageControl2: TPageControl;
-    DBGrid1: TDBGrid;
+    DBGridLivros: TDBGrid;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
     GroupBox3: TGroupBox;
@@ -36,19 +37,17 @@ type
     ButtonAlterarUsuario: TButton;
     GroupBox4: TGroupBox;
     GroupBox5: TGroupBox;
-    Button1: TButton;
-    Button2: TButton;
+    ButtonReservar: TButton;
+    ButtonSolicitar: TButton;
     DBGridReservas: TDBGrid;
     DBGrid3: TDBGrid;
     Label9: TLabel;
     EditCodigoBusca: TEdit;
-    Button4: TButton;
+    ButtonBuscarSimples: TButton;
     EditAutorBusca: TEdit;
     Label10: TLabel;
-    EditAnoBusca: TEdit;
-    Label11: TLabel;
     Label12: TLabel;
-    Button5: TButton;
+    ButtonBuscaAvançada: TButton;
     Label3: TLabel;
     LabelNomeUsuario: TLabel;
     Label4: TLabel;
@@ -64,21 +63,45 @@ type
     LabelMultasUsuario: TLabel;
     Label14: TLabel;
     Label15: TLabel;
-    EditNomeBusca: TEdit;
+    EditTituloBusca: TEdit;
     ComboBoxLocalizacoesBusca: TComboBox;
+    ButtonMostrarTodos: TButton;
+    DBGrid2: TDBGrid;
+    TabSheet4: TTabSheet;
+    GroupBox1: TGroupBox;
+    DBGridEmprestimos: TDBGrid;
+    ButtonRenovar: TButton;
+    ButtonDevolver: TButton;
+    ButtonEmprestar: TButton;
+    Unidades: TGroupBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ButtonAlterarUsuarioClick(Sender: TObject);
+    procedure ButtonMostrarTodosClick(Sender: TObject);
+    procedure ButtonReservarClick(Sender: TObject);
+    procedure ButtonSolicitarClick(Sender: TObject);
+    procedure ButtonBuscarSimplesClick(Sender: TObject);
+    procedure ButtonBuscaAvançadaClick(Sender: TObject);
+    procedure ButtonEmprestarClick(Sender: TObject);
+    procedure ButtonRenovarClick(Sender: TObject);
+    procedure ButtonDevolverClick(Sender: TObject);
 
   private
     Usuario: TUsuarioControl;
     Reserva: TReservaControl;
+    Livro: TLivroControl;
+    Solicitacao: TSolicitacaoControl;
+    Emprestimo: TEmprestimoControl;
     VQry: TFDQuery;
 
-    procedure CarregarUsuario;
     procedure CarregarEdits;
     procedure CarregarLabels;
     procedure CarregarReservas;
+    procedure CarregarSolicitacoes;
+    procedure CarregarComboboxBusca;
+    procedure CarregarEmprestimos;
+
+    const RenovacoesMaximas : integer = 10;
 
   public
 
@@ -109,7 +132,150 @@ begin
 
   Self.CarregarEdits();
   Self.CarregarLabels();
+  StatusBar1.Panels[0].Text := ' '+Usuario.UsuarioModel.ObterNome;
 
+end;
+
+procedure TFormMainUsuario.ButtonBuscaAvançadaClick(Sender: TObject);
+var
+  VQry: TFDQuery;
+begin
+  Livro.LivroModel.Localizacao := Integer(ComboBoxLocalizacoesBusca.Items.Objects[ComboBoxLocalizacoesBusca.ItemIndex]);
+  Livro.LivroModel.Titulo := EditTituloBusca.Text;
+  Livro.LivroModel.Autor := EditAutorBusca.Text;
+
+  Modulos.FDMemTableLivros.Close;
+
+  VQry := Livro.BuscaAvancado;
+  try
+    VQry.FetchAll;
+    Modulos.FDMemTableLivros.Data := VQry.Data;
+  finally
+    VQry.Close;
+    VQry.Free;
+  end;
+end;
+
+procedure TFormMainUsuario.ButtonBuscarSimplesClick(Sender: TObject);
+begin
+  Livro.LivroModel.Codigo := EditCodigoBusca.Text;
+
+  Modulos.FDMemTableLivros.Close;
+
+  VQry := Livro.ObterDados;
+  try
+    VQry.FetchAll;
+    Modulos.FDMemTableLivros.Data := VQry.Data;
+  finally
+    VQry.Close;
+    VQry.Free;
+  end;
+end;
+
+procedure TFormMainUsuario.ButtonDevolverClick(Sender: TObject);
+begin
+  try
+    Emprestimo.EmprestimoModel.Acao := uEnumerado.tacExcluir;
+    Emprestimo.EmprestimoModel.Codigo := ModulosUsuario.FDMemTableEmprestimos.Fields[0].AsInteger;
+    Emprestimo.EmprestimoModel.IdLivro := ModulosUsuario.FDMemTableEmprestimos.Fields[4].AsString;
+  finally
+    if Emprestimo.Salvar then
+      ShowMessage(Modulos.FDMemTableLivros.Fields[1].AsString + ' devolvido com sucesso!');
+
+    Self.CarregarEmprestimos();
+    Modulos.CarregarLivros();
+  end;
+end;
+
+procedure TFormMainUsuario.ButtonEmprestarClick(Sender: TObject);
+begin
+  if Modulos.FDMemTableLivros.Fields[6].AsBoolean = True then
+  begin
+    Emprestimo.EmprestimoModel.Acao := uEnumerado.tacIncluir;
+    Emprestimo.EmprestimoModel.IdLivro := Trim(Modulos.FDMemTableLivros.Fields[0].AsString);
+    Emprestimo.EmprestimoModel.IdUsuario := Modulos.CPFLogado;
+    Emprestimo.EmprestimoModel.Inicio := datetostr(date);
+    Emprestimo.EmprestimoModel.Vencimento := datetostr(IncDay(date, 7));
+    Emprestimo.EmprestimoModel.Renovacoes := 0;
+
+    if Emprestimo.Salvar then
+      ShowMessage(Modulos.FDMemTableLivros.Fields[1].AsString + ' emprestado com sucesso!');
+
+    Self.CarregarEmprestimos();
+    Modulos.CarregarLivros();
+  end
+
+  else
+    ShowMessage('Este livro não está disponível para empréstimo');
+end;
+
+procedure TFormMainUsuario.ButtonMostrarTodosClick(Sender: TObject);
+begin
+  Modulos.FDMemTableLivros.Close;
+  Modulos.CarregarLivros();
+end;
+
+procedure TFormMainUsuario.ButtonRenovarClick(Sender: TObject);
+var
+  aux : integer;
+begin
+  if ModulosUsuario.FDMemTableEmprestimos.Fields[3].AsInteger < RenovacoesMaximas then
+  begin
+    Emprestimo.EmprestimoModel.Acao := uEnumerado.tacAlterar;
+    aux := StrToInt(ModulosUsuario.FDMemTableEmprestimos.Fields[3].AsString);
+    Inc(aux);
+    Emprestimo.EmprestimoModel.Renovacoes := aux;
+    Emprestimo.EmprestimoModel.Vencimento := datetostr(IncDay(date, 7));
+    Emprestimo.EmprestimoModel.Codigo := ModulosUsuario.FDMemTableEmprestimos.Fields[0].AsInteger;
+
+    if Emprestimo.Salvar then
+      ShowMessage(ModulosUsuario.FDMemTableEmprestimos.Fields[5].AsString+' renovado com sucesso!');
+      Self.CarregarEmprestimos;
+  end
+  else
+    ShowMessage('Não é possível renovar este empréstimo, pois o número de renovações atingiu '+IntToStr(RenovacoesMaximas)+ '. Por favor, realize outro empréstimo.');
+end;
+
+procedure TFormMainUsuario.ButtonReservarClick(Sender: TObject);
+begin
+  Reserva.ReservaModel.Acao := uEnumerado.tacIncluir;
+
+  Reserva.ReservaModel.IdLivro := Trim(Modulos.FDMemTableLivros.Fields[0].AsString);
+  Reserva.ReservaModel.IdUsuario := Modulos.CPFLogado;
+  Reserva.ReservaModel.Inicio := datetostr(date);
+  Reserva.ReservaModel.Hora := timetostr(time);
+  Reserva.ReservaModel.Fim := datetostr(IncDay(date, 3));
+
+  if Reserva.Salvar then
+   ShowMessage(Modulos.FDMemTableLivros.Fields[1].AsString + ' reservado com sucesso!');
+
+  Self.CarregarReservas();
+  Modulos.CarregarLivros();
+end;
+
+procedure TFormMainUsuario.ButtonSolicitarClick(Sender: TObject);
+var
+  Destino: string;
+
+begin
+  Destino := InputBox('Solicitar', 'Digite o código da biblioteca de destino', EmptyStr);
+
+  if Destino.Trim <> EmptyStr then
+  begin
+    Solicitacao.SolicitacaoModel.Destino := Destino;
+    Solicitacao.SolicitacaoModel.Acao := uEnumerado.tacIncluir;
+
+    Solicitacao.SolicitacaoModel.IdLivro := Trim(Modulos.FDMemTableLivros.Fields[0].AsString);
+    Solicitacao.SolicitacaoModel.IdUsuario := Modulos.CPFLogado;
+    Solicitacao.SolicitacaoModel.Data := datetostr(date);
+    Solicitacao.SolicitacaoModel.Hora := timetostr(time);
+
+    if Solicitacao.Salvar then
+     ShowMessage(Modulos.FDMemTableLivros.Fields[1].AsString + ' solicitado com sucesso!');
+
+    Self.CarregarSolicitacoes();
+    Modulos.CarregarLivros();
+  end;
 end;
 
 procedure TFormMainUsuario.CarregarEdits;
@@ -124,31 +290,91 @@ end;
 
 procedure TFormMainUsuario.CarregarReservas;
 begin
+  VQry := Reserva.ReservaModel.ObterSelecionadas(Modulos.CPFLogado);
+  ModulosUsuario.FDMemTableReservas.Close;
+  try
+    VQry.FetchAll;
+    ModulosUsuario.FDMemTableReservas.Data := VQry.Data;
+    LabelReservasUsuario.Caption := IntToStr(VQry.RecordCount);
+  finally
+    VQry.Free;
+  end;
+end;
 
+procedure TFormMainUsuario.CarregarEmprestimos;
+begin
+  VQry := Emprestimo.EmprestimoModel.ObterSelecionadas(Modulos.CPFLogado);
+  ModulosUsuario.FDMemTableEmprestimos.Close;
+  try
+    VQry.FetchAll;
+    ModulosUsuario.FDMemTableEmprestimos.Data := VQry.Data;
+    LabelEmprestimosUsuario.Caption := IntToStr(VQry.RecordCount);
+  finally
+    VQry.Free;
+  end;
+end;
+
+procedure TFormMainUsuario.CarregarSolicitacoes;
+begin
+  VQry := Solicitacao.SolicitacaoModel.ObterSelecionadas(Modulos.CPFLogado);
+  try
+    LabelSolicitacoesUsuario.Caption := IntToStr(VQry.RecordCount);
+  finally
+    VQry.Free;
+  end;
 end;
 
 procedure TFormMainUsuario.CarregarLabels;
 begin
   VQry := Usuario.UsuarioModel.ObterDados;
+  try
+    LabelCpfUsuario.Caption := Modulos.CPFLogado;
+    LabelNomeUsuario.Caption := VQry.FieldByName('FNome').AsString;
+    LabelSobrenomeUsuario.Caption := VQry.FieldByName('LNome').AsString;
 
-  LabelCpfUsuario.Caption := Modulos.CPFLogado;
-  LabelNomeUsuario.Caption := VQry.FieldByName('FNome').AsString;
-  LabelSobrenomeUsuario.Caption := VQry.FieldByName('LNome').AsString;
+    LabelReservasUsuario.Caption := IntToStr(Reserva.ReservaModel.ObterSelecionadas(Modulos.CPFLogado).RecordCount);
+  finally
+    VQry.Free;
+  end;
 end;
 
-procedure TFormMainUsuario.CarregarUsuario;
+procedure TFormMainUsuario.CarregarComboboxBusca;
 begin
+VQry := Unidade.Obter;
 
+  ComboBoxLocalizacoesBusca.Items.Clear;
+
+  ComboBoxLocalizacoesBusca.Items.Add('Nenhum');
+
+  VQry.First;
+
+  while not VQry.Eof do
+    begin
+      ComboBoxLocalizacoesBusca.Items.AddObject(VQry.Fields[0].AsString+' - '+VQry.Fields[1].AsString+' - '+VQry.Fields[3].asstring, TObject(VQry.Fields[0].AsInteger));
+      VQry.Next;
+    end;
+
+  VQry.Close;
 end;
 
 procedure TFormMainUsuario.FormCreate(Sender: TObject);
 begin
   Usuario := TUsuarioControl.Create();
+  Reserva := TReservaControl.Create();
+  Livro := TLivroControl.Create();
+  Solicitacao := TSolicitacaoControl.Create();
+  Emprestimo := TEmprestimoControl.Create();
+
   Usuario.UsuarioModel.Cpf := Modulos.CPFLogado;
 
   Self.CarregarEdits();
   Self.CarregarLabels();
   Self.CarregarReservas();
+  Modulos.CarregarLivros();
+  Modulos.CarregarUnidades();
+  Self.CarregarSolicitacoes();
+  Self.CarregarComboboxBusca();
+  Self.CarregarEmprestimos;
 
   StatusBar1.Panels[0].Text := ' '+Usuario.UsuarioModel.ObterNome;
 end;

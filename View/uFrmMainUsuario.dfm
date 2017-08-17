@@ -1,5 +1,5 @@
 ﻿object FormMainUsuario: TFormMainUsuario
-  Left = 0
+  Left = 49
   Top = 0
   BorderStyle = bsDialog
   Caption = '   SISBI'
@@ -42,14 +42,17 @@
     Top = 417
     Width = 668
     Height = 24
-    Panels = <>
+    Panels = <
+      item
+        Width = 50
+      end>
   end
-  object PageControl1: TPageControl
+  object Empréstimos: TPageControl
     Left = 177
     Top = 25
     Width = 491
     Height = 392
-    ActivePage = TabSheet1
+    ActivePage = Consulta
     Align = alRight
     Style = tsFlatButtons
     TabOrder = 2
@@ -123,7 +126,7 @@
         object EditNome: TEdit
           Left = 16
           Top = 43
-          Width = 169
+          Width = 177
           Height = 21
           TabOrder = 0
         end
@@ -190,7 +193,7 @@
         Top = 143
         Width = 232
         Height = 205
-        Caption = 'Empr'#233'stimos'
+        Caption = 'Solicita'#231#245'es'
         TabOrder = 2
         object DBGrid3: TDBGrid
           Left = 2
@@ -215,7 +218,7 @@
         Top = 7
         Width = 471
         Height = 126
-        ActivePage = TabSheet3
+        ActivePage = TabSheet2
         Style = tsFlatButtons
         TabOrder = 0
         object TabSheet2: TTabSheet
@@ -234,13 +237,14 @@
             Height = 21
             TabOrder = 0
           end
-          object Button4: TButton
+          object ButtonBuscarSimples: TButton
             Left = 219
             Top = 19
             Width = 75
             Height = 25
             Caption = 'Buscar'
             TabOrder = 1
+            OnClick = ButtonBuscarSimplesClick
           end
         end
         object TabSheet3: TTabSheet
@@ -253,13 +257,6 @@
             Height = 13
             Caption = 'Autor'
           end
-          object Label11: TLabel
-            Left = 219
-            Top = 3
-            Width = 19
-            Height = 13
-            Caption = 'Ano'
-          end
           object Label12: TLabel
             Left = 291
             Top = 3
@@ -270,80 +267,247 @@
           object Label15: TLabel
             Left = 152
             Top = 49
-            Width = 27
+            Width = 26
             Height = 13
-            Caption = 'Nome'
+            Caption = 'T'#237'tulo'
           end
           object EditAutorBusca: TEdit
             Left = 3
             Top = 22
-            Width = 190
+            Width = 267
             Height = 21
             TabOrder = 0
           end
-          object EditAnoBusca: TEdit
-            Left = 219
-            Top = 22
-            Width = 46
-            Height = 21
-            TabOrder = 1
-          end
-          object Button5: TButton
+          object ButtonBuscaAvançada: TButton
             Left = 3
             Top = 67
             Width = 75
             Height = 25
             Caption = 'Buscar'
-            TabOrder = 2
+            TabOrder = 1
+            OnClick = ButtonBuscaAvançadaClick
           end
-          object EditNomeBusca: TEdit
+          object EditTituloBusca: TEdit
             Left = 152
             Top = 68
             Width = 297
             Height = 21
-            TabOrder = 3
+            TabOrder = 2
           end
           object ComboBoxLocalizacoesBusca: TComboBox
             Left = 288
             Top = 22
             Width = 161
             Height = 21
-            TabOrder = 4
+            TabOrder = 3
           end
         end
       end
-      object DBGrid1: TDBGrid
+      object DBGridLivros: TDBGrid
         Left = 3
         Top = 139
         Width = 474
         Height = 158
+        DataSource = Modulos.DataSourceLivros
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -11
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'Codigo'
+            Width = 91
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Titulo'
+            Width = 107
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Autor'
+            Width = 88
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Ano'
+            Width = 36
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Nome'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Cidade'
+            Visible = True
+          end>
       end
-      object Button1: TButton
-        Left = 397
-        Top = 315
+      object ButtonReservar: TButton
+        Left = 389
+        Top = 333
         Width = 75
         Height = 25
         Caption = 'Reservar'
         TabOrder = 2
+        OnClick = ButtonReservarClick
       end
-      object Button2: TButton
-        Left = 304
-        Top = 316
+      object ButtonSolicitar: TButton
+        Left = 293
+        Top = 333
         Width = 75
         Height = 25
         Caption = 'Solicitar'
         TabOrder = 3
+        OnClick = ButtonSolicitarClick
+      end
+      object ButtonMostrarTodos: TButton
+        Left = 80
+        Top = 333
+        Width = 83
+        Height = 25
+        Caption = 'Mostrar Todos'
+        TabOrder = 4
+        OnClick = ButtonMostrarTodosClick
+      end
+      object ButtonEmprestar: TButton
+        Left = 193
+        Top = 333
+        Width = 75
+        Height = 25
+        Caption = 'Empr'#233'stimo'
+        TabOrder = 5
+        OnClick = ButtonEmprestarClick
       end
     end
     object Informações: TTabSheet
       Caption = 'Informa'#231#245'es'
       ImageIndex = 2
+      object Unidades: TGroupBox
+        Left = 3
+        Top = 3
+        Width = 477
+        Height = 156
+        Caption = 'Unidades'
+        TabOrder = 0
+        object DBGrid2: TDBGrid
+          Left = 2
+          Top = 15
+          Width = 473
+          Height = 139
+          Align = alClient
+          DataSource = Modulos.DataSourceUnidades
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'Codigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Nome'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Cep'
+              Width = 64
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Cidade'
+              Width = 64
+              Visible = True
+            end>
+        end
+      end
+    end
+    object TabSheet4: TTabSheet
+      Caption = 'Empr'#233'stimos'
+      ImageIndex = 3
+      object GroupBox1: TGroupBox
+        Left = 3
+        Top = 3
+        Width = 476
+        Height = 198
+        Caption = 'Empr'#233'stimos'
+        TabOrder = 0
+        object DBGridEmprestimos: TDBGrid
+          Left = 3
+          Top = 18
+          Width = 472
+          Height = 130
+          Color = 4194304
+          DataSource = DataModule1.DataSourceEmprestimos
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'Inicio'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Vencimento'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Renovacoes'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Id_Livro'
+              Width = 99
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Titulo'
+              Width = 187
+              Visible = True
+            end>
+        end
+        object ButtonRenovar: TButton
+          Left = 288
+          Top = 160
+          Width = 75
+          Height = 25
+          Caption = 'Renovar'
+          TabOrder = 1
+          OnClick = ButtonRenovarClick
+        end
+        object ButtonDevolver: TButton
+          Left = 384
+          Top = 160
+          Width = 75
+          Height = 25
+          Caption = 'Devolu'#231#227'o'
+          TabOrder = 2
+          OnClick = ButtonDevolverClick
+        end
+      end
     end
   end
   object TGroupBox

@@ -2,34 +2,38 @@ unit uReservaModel;
 
 interface
 
-uses FireDac.Comp.Client, uReservaControl, uEnumerado;
+uses FireDac.Comp.Client, uEnumerado, System.SysUtils;
 
 type
   TReservaModel = class
 
   private
-    FAcao: TAcao;
+      FAcao: TAcao;
 
-    FIdLivro: string;
-    FIdUsuario: string;
-    FInicio: string;
-    FFim: string;
-    procedure SetAcao(const Value: TAcao);
-    procedure setFim(const Value: string);
-    procedure setInicio(const Value: string);
-    procedure setLivro(const Value: string);
-    procedure setUsuario(const Value: string);
+      FIdLivro: string;
+      FIdUsuario: string;
+      FInicio: string;
+      FFim: string;
+      FHora: string;
+
+      procedure setAcao(const Value: TAcao);
+      procedure setFim(const Value: string);
+      procedure setInicio(const Value: string);
+      procedure setLivro(const Value: string);
+      procedure setUsuario(const Value: string);
+    procedure setHora(const Value: string);
 
     public
 
-    function Obter: TFDQuery;
-    function ObterSelecionadas(Cpf: string): TFDQuery;
-    function Salvar: Boolean;
+      function Obter: TFDQuery;
+      function ObterSelecionadas(Cpf: string): TFDQuery;
+      function Salvar: Boolean;
 
-    property IdLivro: string read FIdLivro write setLivro;
-    property IdUsuario: string read FIdUsuario write setUsuario;
-    property Inicio: string read FIdLivro write setInicio;
-    property Fim: string read FIdLivro write setFim;
+      property IdLivro: string read FIdLivro write setLivro;
+      property IdUsuario: string read FIdUsuario write setUsuario;
+      property Inicio: string read FInicio write setInicio;
+      property Fim: string read FFim write setFim;
+      property Hora:  string read FHora write setHora;
 
     property Acao: TAcao read FAcao write SetAcao;
   end;
@@ -37,7 +41,7 @@ type
 implementation
 
 uses
-  uReservaDao, uUsuarioModel;
+  uReservaDao, uUsuarioModel, uReservaControl;
 
 { TReservaModel }
 
@@ -70,14 +74,16 @@ var
   Dao: TReservaDao;
 begin
   Result := False;
-
   Dao := TReservaDao.Create;
+
   try
     case FAcao of
       uEnumerado.tacIncluir:
         Result := Dao.Incluir(Self);
+
       uEnumerado.tacAlterar:
         Result := Dao.Alterar(Self);
+
       uEnumerado.tacExcluir:
         Result := Dao.Excluir(Self);
     end;
@@ -86,19 +92,24 @@ begin
   end;
 end;
 
-procedure TReservaModel.SetAcao(const Value: TAcao);
+procedure TReservaModel.setAcao(const Value: TAcao);
 begin
   FAcao := Value;
 end;
 
 procedure TReservaModel.setFim(const Value: string);
 begin
-  FIdLivro := Value;
+  FFim := Value;
+end;
+
+procedure TReservaModel.setHora(const Value: string);
+begin
+  FHora := Value;
 end;
 
 procedure TReservaModel.setInicio(const Value: string);
 begin
-  FIdLivro := Value;
+  FInicio := Value;
 end;
 
 procedure TReservaModel.setLivro(const Value: string);

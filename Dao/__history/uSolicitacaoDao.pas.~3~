@@ -1,0 +1,81 @@
+unit uSolicitacaoDao;
+
+interface
+
+uses
+  FireDAC.Comp.Client, uConexao, uSolicitacaoModel, System.SysUtils;
+
+type
+  TSolicitacaoDao = class
+
+  private
+    FConexao: TConexao;
+
+  public
+
+    constructor Create;
+
+    function Incluir(SolicitacaoModel: TSolicitacaoModel): Boolean;
+    function Excluir(SolicitacaoModel: TSolicitacaoModel): Boolean;
+
+    function Obter: TFDQuery;
+    function ObterSelecionadas(IdUsuario: string): TFDQuery;
+  end;
+
+implementation
+
+{ TSolicitacaoDao }
+
+uses uSistemaControl, uUnidadeModel, uUsuarioModel, Vcl.Dialogs;
+
+constructor TSolicitacaoDao.Create;
+begin
+  FConexao := TSistemaControl.GetInstance().Conexao;
+end;
+
+function TSolicitacaoDao.Excluir(SolicitacaoModel: TSolicitacaoModel): Boolean;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  try
+    VQry.ExecSQL('DELETE FROM Solicitacao WHERE (Id_Usuario = :idUsuario AND Id_Livro = :idLivro)', [SolicitacaoModel.IdUsuario, SolicitacaoModel.IdLivro]);
+    Result := True;
+  finally
+    VQry.Free;
+  end;
+end;
+
+function TSolicitacaoDao.Incluir(SolicitacaoModel: TSolicitacaoModel): Boolean;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+
+  try
+    VQry.ExecSQL(' INSERT INTO Solicitacao VALUES (:inicio, :fim, :idUsuario, :idLivro ) ', [SolicitacaoModel.Inicio, SolicitacaoModel.Fim, SolicitacaoModel.IdUsuario, SolicitacaoModel.IdLivro]);
+    Result := True;
+  finally
+    VQry.Free;
+  end;
+end;
+
+function TSolicitacaoDao.Obter: TFDQuery;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  VQry.Open(' SELECT * FROM Solicitacao order by 1 ');
+  Result := VQry;
+end;
+
+function TSolicitacaoDao.ObterSelecionadas(IdUsuario: string): TFDQuery;
+var
+  VQry: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  VQry.Open(' SELECT r.Id_Livro AS Codigo, l.Titulo FROM Solicitacao r, Livro l WHERE (r.Id_Usuario = :idUsuario AND r.Id_Livro = l.Codigo) ', [IdUsuario]);
+  Result := VQry;
+end;
+
+end.

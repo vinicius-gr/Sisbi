@@ -1,0 +1,124 @@
+unit uSolicitacaoModel;
+
+interface
+
+uses
+  uEnumerado, FireDAC.Comp.Client;
+
+type
+  TSolicitacaoModel = class
+
+  private
+    FAcao: TAcao;
+
+    FIdLivro: string;
+    FIdUsuario: string;
+    FData: string;
+    FOrigem: string;
+    FDestino: string;
+
+    procedure SetAcao(const Value: TAcao);
+
+    procedure setData(const Value: string);
+    procedure setLivro(const Value: string);
+    procedure setUsuario(const Value: string);
+    procedure setDestino(const Value: string);
+
+    function Buscar: TFDQuery;
+
+  public
+
+    function Obter: TFDQuery;
+    function ObterSelecionadas(Cpf: string): TFDQuery;
+    function Salvar: Boolean;
+
+    property IdLivro: string read FIdLivro write setLivro;
+    property IdUsuario: string read FIdUsuario write setUsuario;
+    property Data: string read FData write setData;
+    property Destino: string read FDestino write setDestino;
+
+    property Acao: TAcao read FAcao write SetAcao;
+  end;
+
+implementation
+
+{ TLivro }
+
+uses uSolicitacaoDao;
+
+function TSolicitacaoModel.Buscar: TFDQuery;
+begin
+
+end;
+
+function TSolicitacaoModel.Obter: TFDQuery;
+var
+  Dao: TSolicitacaoDao;
+begin
+  Dao := TSolicitacaoDao.Create;
+  try
+    Result := Dao.Obter;
+  finally
+    Dao.Free;
+  end;
+end;
+
+function TSolicitacaoModel.Salvar: Boolean;
+var
+  Dao: TSolicitacaoDao;
+begin
+  Result := False;
+
+  Dao := TSolicitacaoDao.Create;
+  try
+    case FAcao of
+      uEnumerado.tacIncluir:
+        Result := Dao.Incluir(Self);
+      uEnumerado.tacExcluir:
+        Result := Dao.Excluir(Self);
+    end;
+  finally
+    Dao.Free;
+  end;
+end;
+
+
+procedure TSolicitacaoModel.SetAcao(const Value: TAcao);
+begin
+  FAcao := Value;
+end;
+
+procedure TSolicitacaoModel.setData(const Value: string);
+begin
+  FData := Value;
+end;
+
+procedure TSolicitacaoModel.setDestino(const Value: string);
+begin
+  FDestino := Value;
+end;
+
+procedure TSolicitacaoModel.setLivro(const Value: string);
+begin
+  FIdLivro := Value;
+end;
+
+procedure TSolicitacaoModel.setUsuario(const Value: string);
+begin
+ FIdUsuario := Value;
+end;
+
+function TSolicitacaoModel.ObterSelecionadas(Cpf: string): TFDQuery;
+var
+  Dao: TSolicitacaoDao;
+begin
+  Dao := TSolicitacaoDao.Create;
+  try
+    Result := Dao.ObterSelecionadas(Cpf);
+  finally
+    Dao.Free;
+  end;
+end;
+
+end.
+

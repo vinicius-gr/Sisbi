@@ -28,6 +28,8 @@ type
     function Buscar: TFDQuery;
     function Salvar: Boolean;
     function ObterNome: String;
+    function ObterDados: TFDQuery;
+    function BuscaAvancada: TFDQuery;
 
     property Codigo: string read FCodigo write SetCodigo;
     property Titulo: string read FTitulo write SetTitulo;
@@ -130,6 +132,30 @@ begin
   Dao := TLivroDao.Create;
   try
     Result := Dao.Buscar(Self);
+  finally
+    Dao.Free;
+  end;
+end;
+
+function TLivroModel.BuscaAvancada(): TFDQuery;
+var
+  Dao: TLivroDao;
+begin
+  Dao := TLivroDao.Create;
+  try
+    Result := Dao.BuscaAvancado(Self);
+  finally
+    Dao.Free;
+  end;
+end;
+
+function TLivroModel.ObterDados(): TFDQuery;
+var
+  Dao: TLivroDao;
+begin
+  Dao := TLivroDao.Create;
+  try
+    Result := Dao.ObterDados(Self);
   finally
     Dao.Free;
   end;

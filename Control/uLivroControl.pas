@@ -17,6 +17,8 @@ type
     function Salvar: Boolean;
     function Obter: TFDQuery;
     function Buscar: TFDQuery;
+    function ObterDados: TFDQuery;
+    function BuscaAvancado: TFDQuery;
 
     property LivroModel: TLivroModel read FLivroModel write FLivroModel;
   end;
@@ -41,9 +43,19 @@ begin
   Result := FLivroModel.Obter;
 end;
 
+function TLivroControl.ObterDados: TFDQuery;
+begin
+  Result := FLivroModel.ObterDados;
+end;
+
 function TLivroControl.Buscar: TFDQuery;
 begin
   Result := FLivroModel.Buscar;
+end;
+
+function TLivroControl.BuscaAvancado: TFDQuery;
+begin
+  Result := FLivroModel.BuscaAvancada;
 end;
 
 function TLivroControl.Salvar: Boolean;

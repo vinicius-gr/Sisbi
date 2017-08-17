@@ -94,25 +94,21 @@ object FormMainAdm: TFormMainAdm
           item
             Expanded = False
             FieldName = 'FNome'
-            Width = 64
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'LNome'
-            Width = 64
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Senha'
-            Width = 64
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Permissao'
-            Width = 64
             Visible = True
           end>
       end
@@ -386,13 +382,11 @@ object FormMainAdm: TFormMainAdm
           item
             Expanded = False
             FieldName = 'Titulo'
-            Width = 64
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Autor'
-            Width = 64
             Visible = True
           end
           item
@@ -402,7 +396,12 @@ object FormMainAdm: TFormMainAdm
           end
           item
             Expanded = False
-            FieldName = 'Localizacao'
+            FieldName = 'Nome'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Cidade'
             Visible = True
           end>
       end
@@ -553,13 +552,11 @@ object FormMainAdm: TFormMainAdm
           item
             Expanded = False
             FieldName = 'Cep'
-            Width = 64
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Cidade'
-            Width = 64
             Visible = True
           end>
       end
