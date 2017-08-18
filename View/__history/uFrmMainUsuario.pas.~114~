@@ -9,7 +9,7 @@ uses
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.ExtCtrls, Vcl.StdCtrls,
   Data.DB, Vcl.Grids, Vcl.DBGrids, uModulos, uUsuarioControl,
   FireDAC.Comp.Client, uReservaControl, uLivroControl, System.DateUtils,
-  uSolicitacaoControl, uEmprestimoControl;
+  uSolicitacaoControl, uEmprestimoControl, uFrmLogin;
 
 type
   TFormMainUsuario = class(TForm)
@@ -73,6 +73,8 @@ type
     ButtonRenovar: TButton;
     ButtonDevolver: TButton;
     ButtonEmprestar: TButton;
+    Unidades: TGroupBox;
+    Action2: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ButtonAlterarUsuarioClick(Sender: TObject);
@@ -84,6 +86,7 @@ type
     procedure ButtonEmprestarClick(Sender: TObject);
     procedure ButtonRenovarClick(Sender: TObject);
     procedure ButtonDevolverClick(Sender: TObject);
+    procedure Action2Execute(Sender: TObject);
 
   private
     Usuario: TUsuarioControl;
@@ -116,6 +119,20 @@ implementation
 
 uses uEnumerado, uModulosUsuario;
 
+
+procedure TFormMainUsuario.Action2Execute(Sender: TObject);
+begin
+  Application.CreateForm(TFormLogin, FormLogin);
+  try
+    FormLogin.ShowModal;
+  finally
+    FormLogin.Release;
+    FormDestroy(
+    FormMainUsuario.Release;
+    Close;
+  end;
+
+end;
 
 procedure TFormMainUsuario.ButtonAlterarUsuarioClick(Sender: TObject);
 begin
@@ -175,32 +192,37 @@ procedure TFormMainUsuario.ButtonDevolverClick(Sender: TObject);
 begin
   try
     Emprestimo.EmprestimoModel.Acao := uEnumerado.tacExcluir;
-    Emprestimo.EmprestimoModel.Codigo := Modulos.FDMemTableLivros.Fields[0].AsString;
-
+    Emprestimo.EmprestimoModel.Codigo := ModulosUsuario.FDMemTableEmprestimos.Fields[0].AsInteger;
+    Emprestimo.EmprestimoModel.IdLivro := ModulosUsuario.FDMemTableEmprestimos.Fields[4].AsString;
   finally
     if Emprestimo.Salvar then
       ShowMessage(Modulos.FDMemTableLivros.Fields[1].AsString + ' devolvido com sucesso!');
-      Self.CarregarEmprestimos();
+
+    Self.CarregarEmprestimos();
+    Modulos.CarregarLivros();
   end;
 end;
 
 procedure TFormMainUsuario.ButtonEmprestarClick(Sender: TObject);
 begin
-  try
+  if Modulos.FDMemTableLivros.Fields[6].AsBoolean = True then
+  begin
     Emprestimo.EmprestimoModel.Acao := uEnumerado.tacIncluir;
-
     Emprestimo.EmprestimoModel.IdLivro := Trim(Modulos.FDMemTableLivros.Fields[0].AsString);
     Emprestimo.EmprestimoModel.IdUsuario := Modulos.CPFLogado;
     Emprestimo.EmprestimoModel.Inicio := datetostr(date);
     Emprestimo.EmprestimoModel.Vencimento := datetostr(IncDay(date, 7));
     Emprestimo.EmprestimoModel.Renovacoes := 0;
 
-  finally
     if Emprestimo.Salvar then
       ShowMessage(Modulos.FDMemTableLivros.Fields[1].AsString + ' emprestado com sucesso!');
-      Self.CarregarEmprestimos();
-      Modulos.CarregarLivros();
-  end;
+
+    Self.CarregarEmprestimos();
+    Modulos.CarregarLivros();
+  end
+
+  else
+    ShowMessage('Este livro não está disponível para empréstimo');
 end;
 
 procedure TFormMainUsuario.ButtonMostrarTodosClick(Sender: TObject);
@@ -353,6 +375,8 @@ end;
 
 procedure TFormMainUsuario.FormCreate(Sender: TObject);
 begin
+  ShowMessage('Bem vindo!');
+
   Usuario := TUsuarioControl.Create();
   Reserva := TReservaControl.Create();
   Livro := TLivroControl.Create();
@@ -376,6 +400,10 @@ end;
 procedure TFormMainUsuario.FormDestroy(Sender: TObject);
 begin
   Usuario.Free;
+  Reserva.Free;
+  Livro.Free;
+  Solicitacao.Free;
+  Emprestimo.Free;
 end;
 
 end.

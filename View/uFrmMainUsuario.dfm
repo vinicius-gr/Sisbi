@@ -58,6 +58,10 @@
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Perfil'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox3: TGroupBox
         Left = 3
         Top = 0
@@ -250,6 +254,10 @@
         object TabSheet3: TTabSheet
           Caption = 'Busca Avan'#231'ada'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label10: TLabel
             Left = 3
             Top = 3
@@ -348,6 +356,7 @@
           item
             Expanded = False
             FieldName = 'Cidade'
+            Width = 64
             Visible = True
           end>
       end
@@ -391,6 +400,10 @@
     object Informações: TTabSheet
       Caption = 'Informa'#231#245'es'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Unidades: TGroupBox
         Left = 3
         Top = 3
@@ -440,6 +453,10 @@
     object TabSheet4: TTabSheet
       Caption = 'Empr'#233'stimos'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         Left = 3
         Top = 3
@@ -712,6 +729,11 @@
             Caption = '&Ajuda'
           end
           item
+            Items = <
+              item
+                Action = Action2
+                Caption = '&Logout'
+              end>
             Caption = '&Sair'
           end>
         ActionBar = ActionMainMenuBar1
@@ -721,6 +743,11 @@
     object Action1: TAction
       Category = '&Ajuda'
       Caption = '&Sobre'
+    end
+    object Action2: TAction
+      Category = '&Sair'
+      Caption = 'Logout'
+      OnExecute = Action2Execute
     end
   end
 end

@@ -141,6 +141,8 @@ begin
             FormMainUsuario.ShowModal;
           finally
             FormMainUsuario.Release;
+            FormLogin.Release;
+            Close;
           end;
         end;
 
@@ -152,10 +154,10 @@ begin
             FormMainAdm.ShowModal;
           finally
             FormMainAdm.Release;
+            FormLogin.Release;
+            Close;
           end;
         end;
-
-
       end
       else
         ShowMessage('Usuário e/ou senha incorreto(s)');

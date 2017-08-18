@@ -52,7 +52,7 @@
     Top = 25
     Width = 491
     Height = 392
-    ActivePage = TabSheet4
+    ActivePage = Consulta
     Align = alRight
     Style = tsFlatButtons
     TabOrder = 2
@@ -319,35 +319,35 @@
           item
             Expanded = False
             FieldName = 'Codigo'
+            Width = 91
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Titulo'
-            Width = 64
+            Width = 107
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Autor'
-            Width = 64
+            Width = 88
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Ano'
+            Width = 36
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Nome'
-            Width = 64
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'Cidade'
-            Width = 64
             Visible = True
           end>
       end
@@ -361,7 +361,7 @@
         OnClick = ButtonReservarClick
       end
       object ButtonSolicitar: TButton
-        Left = 301
+        Left = 293
         Top = 333
         Width = 75
         Height = 25
@@ -370,7 +370,7 @@
         OnClick = ButtonSolicitarClick
       end
       object ButtonMostrarTodos: TButton
-        Left = 104
+        Left = 80
         Top = 333
         Width = 83
         Height = 25
@@ -379,52 +379,62 @@
         OnClick = ButtonMostrarTodosClick
       end
       object ButtonEmprestar: TButton
-        Left = 208
+        Left = 193
         Top = 333
         Width = 75
         Height = 25
         Caption = 'Empr'#233'stimo'
         TabOrder = 5
+        OnClick = ButtonEmprestarClick
       end
     end
     object Informações: TTabSheet
       Caption = 'Informa'#231#245'es'
       ImageIndex = 2
-      object DBGrid2: TDBGrid
+      object Unidades: TGroupBox
         Left = 3
         Top = 3
         Width = 477
-        Height = 102
-        DataSource = Modulos.DataSourceUnidades
+        Height = 156
+        Caption = 'Unidades'
         TabOrder = 0
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'Tahoma'
-        TitleFont.Style = []
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'Codigo'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'Nome'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'Cep'
-            Width = 64
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'Cidade'
-            Width = 64
-            Visible = True
-          end>
+        object DBGrid2: TDBGrid
+          Left = 2
+          Top = 15
+          Width = 473
+          Height = 139
+          Align = alClient
+          DataSource = Modulos.DataSourceUnidades
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'Codigo'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Nome'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Cep'
+              Width = 64
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Cidade'
+              Width = 64
+              Visible = True
+            end>
+        end
       end
     end
     object TabSheet4: TTabSheet
@@ -432,16 +442,17 @@
       ImageIndex = 3
       object GroupBox1: TGroupBox
         Left = 3
-        Top = 112
+        Top = 3
         Width = 476
-        Height = 246
+        Height = 198
         Caption = 'Empr'#233'stimos'
         TabOrder = 0
         object DBGridEmprestimos: TDBGrid
-          Left = 2
-          Top = 15
+          Left = 3
+          Top = 18
           Width = 472
-          Height = 178
+          Height = 130
+          Color = 4194304
           DataSource = DataModule1.DataSourceEmprestimos
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
@@ -452,50 +463,49 @@
           Columns = <
             item
               Expanded = False
-              FieldName = 'Nome'
-              Width = 179
-              Visible = True
-            end
-            item
-              Expanded = False
               FieldName = 'Inicio'
-              Width = 57
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'Vencimento'
-              Width = 63
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'Renovacoes'
-              Width = 26
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'Id_Livro'
-              Width = 98
+              Width = 99
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Titulo'
+              Width = 187
               Visible = True
             end>
         end
         object ButtonRenovar: TButton
           Left = 288
-          Top = 208
+          Top = 160
           Width = 75
           Height = 25
           Caption = 'Renovar'
           TabOrder = 1
+          OnClick = ButtonRenovarClick
         end
         object ButtonDevolver: TButton
-          Left = 392
-          Top = 208
+          Left = 384
+          Top = 160
           Width = 75
           Height = 25
           Caption = 'Devolu'#231#227'o'
           TabOrder = 2
+          OnClick = ButtonDevolverClick
         end
       end
     end

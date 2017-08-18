@@ -9,7 +9,7 @@ uses
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.ExtCtrls, Vcl.StdCtrls,
   Data.DB, Vcl.Grids, Vcl.DBGrids, uModulos, uUsuarioControl,
   FireDAC.Comp.Client, uReservaControl, uLivroControl, System.DateUtils,
-  uSolicitacaoControl, uEmprestimoControl;
+  uSolicitacaoControl, uEmprestimoControl, uFrmLogin;
 
 type
   TFormMainUsuario = class(TForm)
@@ -74,6 +74,7 @@ type
     ButtonDevolver: TButton;
     ButtonEmprestar: TButton;
     Unidades: TGroupBox;
+    Action2: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ButtonAlterarUsuarioClick(Sender: TObject);
@@ -85,6 +86,7 @@ type
     procedure ButtonEmprestarClick(Sender: TObject);
     procedure ButtonRenovarClick(Sender: TObject);
     procedure ButtonDevolverClick(Sender: TObject);
+    procedure Action2Execute(Sender: TObject);
 
   private
     Usuario: TUsuarioControl;
@@ -117,6 +119,20 @@ implementation
 
 uses uEnumerado, uModulosUsuario;
 
+
+procedure TFormMainUsuario.Action2Execute(Sender: TObject);
+begin
+  Application.CreateForm(TFormLogin, FormLogin);
+  try
+    FormLogin.ShowModal;
+  finally
+    FormLogin.Release;
+    FormDestroy(Sender);
+    FormMainUsuario.Release;
+    Close;
+  end;
+
+end;
 
 procedure TFormMainUsuario.ButtonAlterarUsuarioClick(Sender: TObject);
 begin
@@ -359,6 +375,8 @@ end;
 
 procedure TFormMainUsuario.FormCreate(Sender: TObject);
 begin
+  ShowMessage('Bem vindo!');
+
   Usuario := TUsuarioControl.Create();
   Reserva := TReservaControl.Create();
   Livro := TLivroControl.Create();
@@ -382,6 +400,10 @@ end;
 procedure TFormMainUsuario.FormDestroy(Sender: TObject);
 begin
   Usuario.Free;
+  Reserva.Free;
+  Livro.Free;
+  Solicitacao.Free;
+  Emprestimo.Free;
 end;
 
 end.
