@@ -88,7 +88,7 @@ uses
   Vcl.PlatformDefaultStyleActnCtrls, System.Actions, Vcl.ActnList, Vcl.ActnMan,
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, uFrmMainUsuario, uUsuarioControl,
   uEnumerado, FireDAC.Comp.Client, uConexao, uSistemaControl, uPermissao,
-  uFrmMainAdm, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
+  uFrmMainAdm, Vcl.Imaging.pngimage, Vcl.ExtCtrls, Vcl.Buttons;
 
 type
   TFormLogin = class(TForm)
@@ -111,6 +111,7 @@ type
 
 var
   FormLogin: TFormLogin;
+
 
 implementation
 

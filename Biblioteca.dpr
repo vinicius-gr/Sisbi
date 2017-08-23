@@ -28,7 +28,10 @@ uses
   uSolicitacaoModel in 'Model\uSolicitacaoModel.pas',
   uEmprestimoControl in 'Control\uEmprestimoControl.pas',
   uEmprestimoDao in 'Dao\uEmprestimoDao.pas',
-  uEmprestimoModel in 'Model\uEmprestimoModel.pas';
+  uEmprestimoModel in 'Model\uEmprestimoModel.pas',
+  uMultaControl in 'Control\uMultaControl.pas',
+  uMultaModel in 'Model\uMultaModel.pas',
+  uMultaDao in 'Dao\uMultaDao.pas';
 
 {$R *.res}
 

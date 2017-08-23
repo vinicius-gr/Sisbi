@@ -21,6 +21,8 @@ type
     function Renovar(EmprestimoModel: TEmprestimoModel): Boolean;
 
     function ObterSelecionadas(IdUsuario: string): TFDQuery;
+    function Obter: TFDQuery;
+
   end;
 
 implementation
@@ -78,6 +80,13 @@ begin
   finally
     VQry.Free;
   end;
+end;
+
+function TEmprestimoDao.Obter: TFDQuery;
+begin
+  VQry := FConexao.CriarQuery();
+  VQry.Open(' SELECT e.Codigo AS Codigo, e.Vencimento AS Vencimento, e.Id_Livro AS Id_Livro, e.Id_Usuario AS Id_Usuario, l.Titulo AS Titulo FROM Emprestimo e INNER JOIN Livro l ON (e.Id_Livro = l.Codigo) ');
+  Result := VQry;
 end;
 
 function TEmprestimoDao.ObterSelecionadas(IdUsuario: string): TFDQuery;

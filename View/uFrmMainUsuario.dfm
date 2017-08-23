@@ -52,16 +52,12 @@
     Top = 25
     Width = 491
     Height = 392
-    ActivePage = Consulta
+    ActivePage = Informações
     Align = alRight
     Style = tsFlatButtons
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Perfil'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GroupBox3: TGroupBox
         Left = 3
         Top = 0
@@ -254,10 +250,6 @@
         object TabSheet3: TTabSheet
           Caption = 'Busca Avan'#231'ada'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Label10: TLabel
             Left = 3
             Top = 3
@@ -356,7 +348,6 @@
           item
             Expanded = False
             FieldName = 'Cidade'
-            Width = 64
             Visible = True
           end>
       end
@@ -400,10 +391,6 @@
     object Informações: TTabSheet
       Caption = 'Informa'#231#245'es'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Unidades: TGroupBox
         Left = 3
         Top = 3
@@ -438,25 +425,72 @@
             item
               Expanded = False
               FieldName = 'Cep'
-              Width = 64
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'Cidade'
-              Width = 64
               Visible = True
             end>
+        end
+      end
+      object Multas: TGroupBox
+        Left = 3
+        Top = 175
+        Width = 477
+        Height = 183
+        Caption = 'Multas'
+        TabOrder = 1
+        object DBGrid1: TDBGrid
+          Left = 3
+          Top = 16
+          Width = 366
+          Height = 164
+          DataSource = DataModule1.DataSourceMultas
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'Valor'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Id_Usuario'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Id_Emprestimo'
+              Visible = True
+            end>
+        end
+        object ButtonGerarBoleto: TButton
+          Left = 384
+          Top = 64
+          Width = 75
+          Height = 25
+          Caption = 'Boleto'
+          TabOrder = 1
+        end
+        object ButtonPagar: TButton
+          Left = 384
+          Top = 104
+          Width = 75
+          Height = 25
+          Caption = 'Pagar'
+          TabOrder = 2
         end
       end
     end
     object TabSheet4: TTabSheet
       Caption = 'Empr'#233'stimos'
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         Left = 3
         Top = 3

@@ -9,7 +9,7 @@ uses
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, Vcl.ExtCtrls, Vcl.StdCtrls,
   Data.DB, Vcl.Grids, Vcl.DBGrids, uModulos, uUsuarioControl,
   FireDAC.Comp.Client, uReservaControl, uLivroControl, System.DateUtils,
-  uSolicitacaoControl, uEmprestimoControl, uFrmLogin;
+  uSolicitacaoControl, uEmprestimoControl, uMultaControl;
 
 type
   TFormMainUsuario = class(TForm)
@@ -75,6 +75,10 @@ type
     ButtonEmprestar: TButton;
     Unidades: TGroupBox;
     Action2: TAction;
+    Multas: TGroupBox;
+    DBGrid1: TDBGrid;
+    ButtonGerarBoleto: TButton;
+    ButtonPagar: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ButtonAlterarUsuarioClick(Sender: TObject);
@@ -90,6 +94,7 @@ type
 
   private
     Usuario: TUsuarioControl;
+    Multa: TMultaControl;
     Reserva: TReservaControl;
     Livro: TLivroControl;
     Solicitacao: TSolicitacaoControl;
@@ -102,6 +107,7 @@ type
     procedure CarregarSolicitacoes;
     procedure CarregarComboboxBusca;
     procedure CarregarEmprestimos;
+    procedure CarregarMultas;
 
     const RenovacoesMaximas : integer = 10;
 
@@ -117,7 +123,7 @@ implementation
 
 {$R *.dfm}
 
-uses uEnumerado, uModulosUsuario;
+uses uEnumerado, uModulosUsuario, uFrmLogin;
 
 
 procedure TFormMainUsuario.Action2Execute(Sender: TObject);
@@ -330,6 +336,19 @@ begin
   end;
 end;
 
+procedure TFormMainUsuario.CarregarMultas;
+begin
+  VQry := Multa.MultaModel.BuscarMultas(Modulos.CPFLogado);
+  ModulosUsuario.FDMemTableMultas.Close;
+  try
+    VQry.FetchAll;
+    ModulosUsuario.FDMemTableMultas.Data := VQry.Data;
+    LabelEmprestimosUsuario.Caption := IntToStr(VQry.RecordCount);
+  finally
+    VQry.Free;
+  end;
+end;
+
 procedure TFormMainUsuario.CarregarSolicitacoes;
 begin
   VQry := Solicitacao.SolicitacaoModel.ObterSelecionadas(Modulos.CPFLogado);
@@ -379,6 +398,7 @@ begin
 
   Usuario := TUsuarioControl.Create();
   Reserva := TReservaControl.Create();
+  Multa := TMultaControl.Create();
   Livro := TLivroControl.Create();
   Solicitacao := TSolicitacaoControl.Create();
   Emprestimo := TEmprestimoControl.Create();
@@ -392,7 +412,8 @@ begin
   Modulos.CarregarUnidades();
   Self.CarregarSolicitacoes();
   Self.CarregarComboboxBusca();
-  Self.CarregarEmprestimos;
+  Self.CarregarEmprestimos();
+  Self.CarregarMultas();
 
   StatusBar1.Panels[0].Text := ' '+Usuario.UsuarioModel.ObterNome;
 end;

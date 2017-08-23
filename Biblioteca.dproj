@@ -146,6 +146,9 @@
         <DCCReference Include="Control\uEmprestimoControl.pas"/>
         <DCCReference Include="Dao\uEmprestimoDao.pas"/>
         <DCCReference Include="Model\uEmprestimoModel.pas"/>
+        <DCCReference Include="Control\uMultaControl.pas"/>
+        <DCCReference Include="Model\uMultaModel.pas"/>
+        <DCCReference Include="Dao\uMultaDao.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

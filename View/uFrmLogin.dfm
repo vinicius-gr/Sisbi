@@ -282,7 +282,7 @@ object FormLogin: TFormLogin
   object Image2: TImage
     Left = 32
     Top = 40
-    Width = 136
+    Width = 129
     Height = 105
     Picture.Data = {
       0954506E67496D61676589504E470D0A1A0A0000000D49484452000001800000
@@ -2186,7 +2186,7 @@ object FormLogin: TFormLogin
   end
   object EditUsuario: TEdit
     Left = 23
-    Top = 160
+    Top = 168
     Width = 145
     Height = 21
     TabOrder = 0

@@ -1,0 +1,164 @@
+unit uMultaModel;
+
+interface
+
+uses
+  uEnumerado, FireDAC.Comp.Client, System.SysUtils;
+
+type
+  TMultaModel = class
+
+  private
+    FAcao: TAcao;
+
+    FIdEmprestimo: string;
+    FIdUsuario: string;
+    FValor: Double;
+
+    procedure SetAcao(const Value: TAcao);
+    procedure setData(const Value: string);
+    procedure setDestino(const Value: string);
+    procedure setHora(const Value: string);
+    procedure setEmprestimo(const Value: string);
+    procedure setUsuario(const Value: string);
+    procedure setValor(const Value: string);
+
+  public
+
+    function Obter: TFDQuery;
+    function ObterSelecionadas(Cpf: string): TFDQuery;
+    function Salvar: Boolean;
+    procedure AplicarMultas;
+    function CalcularMultas(Cpf: string): TFDQuery;
+
+    property IdEmprestimo: string read FIdEmprestimo write setEmprestimo;
+    property IdUsuario: string read FIdUsuario write setUsuario;
+    property Valor: string read FValor write setValor;
+
+
+    property Acao: TAcao read FAcao write SetAcao;
+  end;
+
+implementation
+
+{ TEmprestimo }
+
+uses uMultaDao, uEmprestimoDao;
+
+procedure TMultaModel.AplicarMultas;
+var
+  VQry: TFDQuery;
+  Dao: TEmprestimoDao;
+  Hoje: TDateTime;
+  Vencimento: TDateTime;
+
+begin
+  Dao := TEmprestimoDao.Create;
+  try
+    Hoje := date;
+
+    VQry := Dao.Obter;
+    VQry.First;
+
+    Self.SetAcao := tacIncluir;
+
+  while not VQry.Eof do
+    begin
+      Vencimento := StrToDate(VQry.FieldByName('Vencimento'));
+
+      if Vencimento < Hoje then
+      begin
+        Self.setEmprestimo := VQry.FieldByName('Id_Emprestimo');
+        Self.setUsuario := VQry.FieldByName('Id_Usuario');
+
+        Self.Valor := (Hoje - Vencimento) * 2.0;
+
+        Self.Salvar;
+
+      end;
+
+      VQry.Next;
+    end;
+
+  VQry.Close;
+
+  finally
+
+  end;
+end;
+
+
+function TMultaModel.CalcularMultas(Cpf: string): TFDQuery;
+begin
+
+end;
+
+function TMultaModel.Obter: TFDQuery;
+var
+  Dao: TMultaDao;
+begin
+  Dao := TMultaDao.Create;
+  try
+    Result := Dao.Obter;
+  finally
+    Dao.Free;
+  end;
+end;
+
+function TMultaModel.Salvar: Boolean;
+var
+  Dao: TMultaDao;
+begin
+  Result := False;
+
+  Dao := TMultaDao.Create;
+  try
+    case FAcao of
+      uEnumerado.tacIncluir:
+        Result := Dao.Incluir(Self);
+
+      uEnumerado.tacAlterar:
+        Result := Dao.AtualizarValor(Self);
+
+      uEnumerado.tacExcluir:
+        Result := Dao.Excluir(Self);
+    end;
+  finally
+    Dao.Free;
+  end;
+end;
+
+
+procedure TMultaModel.SetAcao(const Value: TAcao);
+begin
+  FAcao := Value;
+end;
+
+procedure TMultaModel.setEmprestimo(const Value: string);
+begin
+  FIdEmprestimo := Value;
+end;
+
+procedure TMultaModel.setUsuario(const Value: string);
+begin
+ FIdUsuario := Value;
+end;
+
+procedure TMultaModel.setValor(const Value: string);
+begin
+  FValor := Value;
+end;
+
+function TMultaModel.ObterSelecionadas(Cpf: string): TFDQuery;
+var
+  Dao: TMultaDao;
+begin
+  Dao := TMultaDao.Create;
+  try
+    Result := Dao.ObterSelecionadas(Cpf);
+  finally
+    Dao.Free;
+  end;
+end;
+
+end.

@@ -21,6 +21,11 @@ type
     FDMemTableEmprestimosTitulo: TStringField;
     FDMemTableEmprestimosInicio: TDateField;
     FDMemTableEmprestimosVencimento: TDateField;
+    FDMemTableMultas: TFDMemTable;
+    FDMemTableMultasValor: TFloatField;
+    DataSourceMultas: TDataSource;
+    FDMemTableMultasId_Usuario: TStringField;
+    FDMemTableMultasId_Emprestimo: TIntegerField;
 
   private
     { Private declarations }

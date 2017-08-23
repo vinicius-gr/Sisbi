@@ -3,7 +3,8 @@ unit uSolicitacaoDao;
 interface
 
 uses
-  FireDAC.Comp.Client, uConexao, uSolicitacaoModel, System.SysUtils;
+  FireDAC.Comp.Client, uConexao, uSolicitacaoModel, System.SysUtils,
+  FireDAC.Phys.MSSQL;
 
 type
   TSolicitacaoDao = class
@@ -51,10 +52,14 @@ var
   VQry: TFDQuery;
 begin
   VQry := FConexao.CriarQuery();
-
+  try
   try
     VQry.ExecSQL(' INSERT INTO Solicitacao(Data, Hora, Destino, Id_Usuario, Id_Livro) VALUES (:data, :hora, :destino, :idUsuario, :idLivro ) ', [SolicitacaoModel.Data, SolicitacaoModel.Hora, SolicitacaoModel.Destino, SolicitacaoModel.IdUsuario, SolicitacaoModel.IdLivro]);
     Result := True;
+  except
+    on E : EMSSQLNativeException do
+        MessageDlg('Unidade não cadastrada.', mtWarning, [mbOK], 0);
+  end;
   finally
     VQry.Free;
   end;

@@ -64,4 +64,29 @@ object DataModule1: TDataModule1
     Left = 160
     Top = 112
   end
+  object FDMemTableMultas: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 288
+    Top = 184
+    object FDMemTableMultasValor: TFloatField
+      FieldName = 'Valor'
+    end
+    object FDMemTableMultasId_Usuario: TStringField
+      FieldName = 'Id_Usuario'
+    end
+    object FDMemTableMultasId_Emprestimo: TIntegerField
+      FieldName = 'Id_Emprestimo'
+    end
+  end
+  object DataSourceMultas: TDataSource
+    DataSet = FDMemTableMultas
+    Left = 152
+    Top = 184
+  end
 end
