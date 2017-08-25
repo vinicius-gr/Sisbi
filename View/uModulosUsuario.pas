@@ -5,7 +5,8 @@ interface
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  gtPDFClasses, gtCstPDFDoc, gtExPDFDoc, gtExProPDFDoc, gtPDFDoc;
 
 type
   TDataModule1 = class(TDataModule)
@@ -26,6 +27,7 @@ type
     DataSourceMultas: TDataSource;
     FDMemTableMultasId_Usuario: TStringField;
     FDMemTableMultasId_Emprestimo: TIntegerField;
+    gtPDFDocument1: TgtPDFDocument;
 
   private
     { Private declarations }

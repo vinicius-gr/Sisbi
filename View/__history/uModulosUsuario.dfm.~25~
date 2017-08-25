@@ -11,7 +11,7 @@ object DataModule1: TDataModule1
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 288
-    Top = 8
+    Top = 24
     object FDMemTableReservasCodigo: TStringField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'Codigo'
@@ -24,7 +24,7 @@ object DataModule1: TDataModule1
   object DataSourceReservas: TDataSource
     DataSet = FDMemTableReservas
     Left = 160
-    Top = 8
+    Top = 24
   end
   object FDMemTableEmprestimos: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -35,7 +35,7 @@ object DataModule1: TDataModule1
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 288
-    Top = 56
+    Top = 112
     object FDMemTableEmprestimosCodigo: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'Codigo'
@@ -62,7 +62,7 @@ object DataModule1: TDataModule1
   object DataSourceEmprestimos: TDataSource
     DataSet = FDMemTableEmprestimos
     Left = 160
-    Top = 56
+    Top = 112
   end
   object FDMemTableMultas: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -73,7 +73,7 @@ object DataModule1: TDataModule1
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 288
-    Top = 104
+    Top = 184
     object FDMemTableMultasValor: TFloatField
       FieldName = 'Valor'
     end
@@ -87,16 +87,6 @@ object DataModule1: TDataModule1
   object DataSourceMultas: TDataSource
     DataSet = FDMemTableMultas
     Left = 152
-    Top = 104
-  end
-  object gtPDFDocument1: TgtPDFDocument
-    About = 'Gnostice PDFtoolkit (www.gnostice.com)'
-    Version = '5.0.0.565'
-    OpenAfterSave = False
-    MergeOptions = []
-    EMailAfterSave = False
-    ShowSetupDialog = False
-    Left = 288
-    Top = 160
+    Top = 184
   end
 end

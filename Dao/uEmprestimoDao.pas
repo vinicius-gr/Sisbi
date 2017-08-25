@@ -41,9 +41,14 @@ function TEmprestimoDao.Excluir(EmprestimoModel: TEmprestimoModel): Boolean;
 begin
   VQry := FConexao.CriarQuery();
   try
+    try
     VQry.ExecSQL(' DELETE FROM Emprestimo WHERE (Codigo = :codigo) ', [EmprestimoModel.Codigo]);
     VQry.ExecSQL(' UPDATE Livro SET Disponivel = 1 WHERE (Codigo = :codigo) ', [EmprestimoModel.IdLivro]);
     Result := True;
+    except
+      on E : EMSSQLNativeException do
+        MessageDlg('Há uma multa para este empréstimo. Favor realizar o pagamento.', mtWarning, [mbOK], 0);
+    end;
   finally
     VQry.Free;
   end;

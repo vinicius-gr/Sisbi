@@ -88,7 +88,7 @@ uses
   Vcl.PlatformDefaultStyleActnCtrls, System.Actions, Vcl.ActnList, Vcl.ActnMan,
   Vcl.ToolWin, Vcl.ActnCtrls, Vcl.ActnMenus, uFrmMainUsuario, uUsuarioControl,
   uEnumerado, FireDAC.Comp.Client, uConexao, uSistemaControl, uPermissao,
-  uFrmMainAdm;
+  uFrmMainAdm, Vcl.Imaging.pngimage, Vcl.ExtCtrls, Vcl.Buttons;
 
 type
   TFormLogin = class(TForm)
@@ -99,6 +99,8 @@ type
     ActionManager1: TActionManager;
     RecuperarSenha: TAction;
     Sobre: TAction;
+    Image1: TImage;
+    Image2: TImage;
     procedure ButtonLogarClick(Sender: TObject);
 
   private
@@ -109,6 +111,7 @@ type
 
 var
   FormLogin: TFormLogin;
+
 
 implementation
 
@@ -130,8 +133,7 @@ begin
     begin
       if VControleUsuario.UsuarioModel.VerificaSenha(EditSenha.Text) then
       begin
-
-        Modulos.CPFLogado := StrToInt(EditUsuario.Text);
+        Modulos.CPFLogado := EditUsuario.Text;
 
         if VControleUsuario.UsuarioModel.VerificaPermissao() = pNormal then
         begin
@@ -140,6 +142,8 @@ begin
             FormMainUsuario.ShowModal;
           finally
             FormMainUsuario.Release;
+            FormLogin.Release;
+            Close;
           end;
         end;
 
@@ -151,10 +155,10 @@ begin
             FormMainAdm.ShowModal;
           finally
             FormMainAdm.Release;
+            FormLogin.Release;
+            Close;
           end;
         end;
-
-
       end
       else
         ShowMessage('Usuário e/ou senha incorreto(s)');

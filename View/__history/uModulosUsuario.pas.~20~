@@ -13,14 +13,20 @@ type
     DataSourceReservas: TDataSource;
     FDMemTableReservasCodigo: TStringField;
     FDMemTableReservasTitulo: TStringField;
-    FDMemTableLivros: TFDMemTable;
-    DataSourceLivros: TDataSource;
-    FDMemTableLivroslCodigo: TStringField;
-    FDMemTableLivroslTitulo: TStringField;
-    FDMemTableLivroslAutor: TStringField;
-    FDMemTableLivroslAno: TStringField;
-    FDMemTableLivrosuNome: TStringField;
-    FDMemTableLivrosuCidade: TStringField;
+    FDMemTableEmprestimos: TFDMemTable;
+    DataSourceEmprestimos: TDataSource;
+    FDMemTableEmprestimosCodigo: TIntegerField;
+    FDMemTableEmprestimosRenovacoes: TIntegerField;
+    FDMemTableEmprestimosId_Livro: TStringField;
+    FDMemTableEmprestimosTitulo: TStringField;
+    FDMemTableEmprestimosInicio: TDateField;
+    FDMemTableEmprestimosVencimento: TDateField;
+    FDMemTableMultas: TFDMemTable;
+    FDMemTableMultasValor: TFloatField;
+    DataSourceMultas: TDataSource;
+    FDMemTableMultasId_Usuario: TStringField;
+    FDMemTableMultasId_Emprestimo: TIntegerField;
+
   private
     { Private declarations }
   public

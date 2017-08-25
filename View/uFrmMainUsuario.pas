@@ -78,7 +78,7 @@ type
     Multas: TGroupBox;
     DBGrid1: TDBGrid;
     ButtonGerarBoleto: TButton;
-    ButtonPagar: TButton;
+
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ButtonAlterarUsuarioClick(Sender: TObject);
@@ -125,19 +125,16 @@ implementation
 
 uses uEnumerado, uModulosUsuario, uFrmLogin;
 
-
 procedure TFormMainUsuario.Action2Execute(Sender: TObject);
 begin
   Application.CreateForm(TFormLogin, FormLogin);
   try
     FormLogin.ShowModal;
+    FormMainUsuario.Release;
   finally
     FormLogin.Release;
-    FormDestroy(Sender);
-    FormMainUsuario.Release;
     Close;
   end;
-
 end;
 
 procedure TFormMainUsuario.ButtonAlterarUsuarioClick(Sender: TObject);
@@ -392,9 +389,23 @@ VQry := Unidade.Obter;
   VQry.Close;
 end;
 
-procedure TFormMainUsuario.FormCreate(Sender: TObject);
+procedure CloseMessageBox(AWnd: HWND; AMsg: UINT; AIDEvent: UINT_PTR; ATicks: DWORD); stdcall;
+var
+  Wnd: HWND;
 begin
-  ShowMessage('Bem vindo!');
+  KillTimer(AWnd, AIDEvent);
+  Wnd := GetActiveWindow;
+  if IsWindow(Wnd) then
+    PostMessage(Wnd, WM_CLOSE, 0, 0);
+end;
+
+procedure TFormMainUsuario.FormCreate(Sender: TObject);
+var
+  TimerId: UINT_PTR;
+begin
+  TimerId := SetTimer(0, 0, 10 * 130, @CloseMessageBox);
+  Application.MessageBox('Bem vindo!','',0);
+  KillTimer(0, TimerId);
 
   Usuario := TUsuarioControl.Create();
   Reserva := TReservaControl.Create();

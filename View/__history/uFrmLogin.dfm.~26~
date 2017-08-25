@@ -3,7 +3,7 @@ object FormLogin: TFormLogin
   Top = 0
   BorderStyle = bsToolWindow
   Caption = '   SISBI'
-  ClientHeight = 355
+  ClientHeight = 350
   ClientWidth = 200
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object FormLogin: TFormLogin
     Left = 0
     Top = 25
     Width = 200
-    Height = 330
+    Height = 325
     Align = alClient
     Picture.Data = {
       0954506E67496D61676589504E470D0A1A0A0000000D49484452000000FA0000

@@ -52,7 +52,7 @@
     Top = 25
     Width = 491
     Height = 392
-    ActivePage = Informações
+    ActivePage = TabSheet1
     Align = alRight
     Style = tsFlatButtons
     TabOrder = 2
@@ -348,6 +348,7 @@
           item
             Expanded = False
             FieldName = 'Cidade'
+            Width = 64
             Visible = True
           end>
       end
@@ -425,11 +426,13 @@
             item
               Expanded = False
               FieldName = 'Cep'
+              Width = 64
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'Cidade'
+              Width = 64
               Visible = True
             end>
         end
@@ -467,24 +470,17 @@
             item
               Expanded = False
               FieldName = 'Id_Emprestimo'
+              Width = 64
               Visible = True
             end>
         end
         object ButtonGerarBoleto: TButton
           Left = 384
-          Top = 64
+          Top = 88
           Width = 75
           Height = 25
           Caption = 'Boleto'
           TabOrder = 1
-        end
-        object ButtonPagar: TButton
-          Left = 384
-          Top = 104
-          Width = 75
-          Height = 25
-          Caption = 'Pagar'
-          TabOrder = 2
         end
       end
     end
